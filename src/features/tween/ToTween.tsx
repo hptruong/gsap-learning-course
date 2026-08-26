@@ -13,23 +13,19 @@ import { gsap, useGSAP } from "@/shared/lib/gsap";
 import { CodeBlock } from "@/shared/ui/code-block/CodeBlock";
 import { Play, RotateCcw } from "lucide-react";
 
-export function ToDemo() {
+export function ToTween() {
   const scope = useRef<HTMLDivElement>(null);
   // useGSAP tạo gsap.context scoped — auto revert khi unmount
   const { contextSafe } = useGSAP({ scope });
 
-  // contextSafe: đảm bảo callback chạy trong đúng GSAP context, tránh leak
   const handleTo = contextSafe(() => {
-    // gsap.to() — animate TỪ trạng thái hiện tại ĐẾN giá trị mới
-    // duration: giây, ease: cảm giác chuyển động
     gsap.to(".box-to", {
-      x: 220, // translateX 220px — GPU accelerated (theo gsap-performance skill)
-      rotation: 360, // xoay 1 vòng (deg mặc định)
+      x: 220,
+      rotation: 360,
       scale: 1.15,
-      backgroundColor: "#6366f1", // GSAP tự interpolate màu
-      duration: 0.8,
-      ease: "power3.out", // nhanh đầu, chậm cuối — tự nhiên (gsap-core)
-      overwrite: "auto", // kill tween cũ nếu overlap cùng property
+      duration: 1.15,
+      ease: "power3.out",
+      overwrite: "auto",
     });
   });
 
@@ -38,8 +34,7 @@ export function ToDemo() {
       x: 0,
       rotation: 0,
       scale: 1,
-      backgroundColor: "#27272a",
-      duration: 0.5,
+      duration: 0.75,
       ease: "power2.inOut",
       overwrite: "auto",
     });
@@ -63,21 +58,19 @@ export function ToDemo() {
       </p>
 
       <CodeBlock
-        code={`// gsap.to(target, vars) — animate ĐẾN giá trị mới
+        code={`// gsap.to — chậm hơn để nhìn rõ easing
 gsap.to(".box", {
-  x: 220,              // translateX 220px (GPU)
-  rotation: 360,       // xoay 360°
-  scale: 1.15,         // phóng to
-  backgroundColor: "#6366f1",
-  duration: 0.8,
-  ease: "power3.out",  // easing mượt
-  overwrite: "auto",   // tránh conflict tween cũ
+  x: 220, rotation: 360, scale: 1.15,
+  duration: 1.15, ease: "power3.out", overwrite: "auto",
 });`}
       />
 
       <div className="mt-5 bg-[#0a0a14] rounded-xl border border-white/5 p-6 overflow-hidden">
         <div className="h-[72px] flex items-center">
-          <div className="box-to w-[64px] h-[64px] rounded-xl bg-zinc-800 border border-white/10 flex items-center justify-center text-[11px] font-mono text-zinc-400 shrink-0">
+          <div
+            className="box-to w-[64px] h-[64px] rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-700 border border-white/10 flex items-center justify-center text-[11px] font-mono text-zinc-300 shrink-0 will-change-transform"
+            style={{ willChange: "transform" }}
+          >
             BOX
           </div>
         </div>

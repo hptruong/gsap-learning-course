@@ -3,10 +3,10 @@
  * @layer widgets
  */
 import { Section } from "@/shared/ui/section/Section";
-import { ToDemo } from "@/features/gsap-to/ToDemo";
-import { FromDemo } from "@/features/gsap-from/FromDemo";
-import { FromToDemo } from "@/features/gsap-fromto/FromToDemo";
-import { SetDemo } from "@/features/gsap-set/SetDemo";
+import { ToTween } from "@/features/tween/ToTween";
+import { FromTween } from "@/features/tween/FromTween";
+import { FromToTween } from "@/features/tween/FromToTween";
+import { SetUtility } from "@/features/tween/SetUtility";
 import { MousePointer2 } from "lucide-react";
 
 export function TweenSection() {
@@ -19,10 +19,10 @@ export function TweenSection() {
       icon={<MousePointer2 size={16} />}
     >
       <div className="grid md:grid-cols-2 gap-4">
-        <ToDemo />
-        <FromDemo />
-        <FromToDemo />
-        <SetDemo />
+        <ToTween />
+        <FromTween />
+        <FromToTween />
+        <SetUtility />
       </div>
 
       <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 md:p-5">

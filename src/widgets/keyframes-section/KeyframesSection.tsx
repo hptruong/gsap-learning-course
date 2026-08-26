@@ -3,7 +3,7 @@
  * @layer widgets
  */
 import { Section } from "@/shared/ui/section/Section";
-import { KeyframesDemo } from "@/features/gsap-keyframes/KeyframesDemo";
+import { KeyframesSequence } from "@/features/keyframes/KeyframesSequence";
 import { Sparkles } from "lucide-react";
 
 export function KeyframesSection() {
@@ -15,7 +15,7 @@ export function KeyframesSection() {
       subtitle="Khi cần nhiều bước liên tiếp nhưng không muốn tạo cả timeline — keyframes gom tất cả vào 1 tween."
       icon={<Sparkles size={16} />}
     >
-      <KeyframesDemo />
+      <KeyframesSequence />
     </Section>
   );
 }

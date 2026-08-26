@@ -3,7 +3,7 @@
  * @layer widgets
  */
 import { Section } from "@/shared/ui/section/Section";
-import { EasingRace } from "@/features/gsap-easing/EasingRace";
+import { EasingRaceTrack } from "@/features/easing/EasingRaceTrack";
 import { Zap } from "lucide-react";
 
 export function EasingSection() {
@@ -15,7 +15,7 @@ export function EasingSection() {
       subtitle="Easing quyết định cảm giác: tự nhiên, đàn hồi, nảy, hay robot. Đổi ease là đổi luôn personality của animation."
       icon={<Zap size={16} />}
     >
-      <EasingRace />
+      <EasingRaceTrack />
     </Section>
   );
 }

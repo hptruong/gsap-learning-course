@@ -7,19 +7,19 @@ import { gsap, useGSAP } from "@/shared/lib/gsap";
 import { CodeBlock } from "@/shared/ui/code-block/CodeBlock";
 import { Play, RotateCcw } from "lucide-react";
 
-export function KeyframesDemo() {
+export function KeyframesSequence() {
   const scope = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope });
 
   const run = contextSafe(() => {
     gsap.killTweensOf(".box-kf");
-    // keyframes: gom nhiều bước vào 1 tween thay vì timeline dài
     gsap.to(".box-kf", {
       keyframes: [
-        { x: 120, scale: 1.2, duration: 0.3, ease: "power2.out" },
-        { y: -40, rotation: 180, duration: 0.3, ease: "power2.inOut" },
-        { x: 0, y: 0, scale: 1, rotation: 360, duration: 0.5, ease: "back.out(1.2)" },
+        { x: 120, scale: 1.15, duration: 0.55, ease: "power2.out" },
+        { y: -28, rotation: 180, duration: 0.55, ease: "power2.inOut" },
+        { x: 0, y: 0, scale: 1, rotation: 360, duration: 0.8, ease: "power3.out" },
       ],
+      ease: "power2.inOut",
       overwrite: "auto",
     });
   });
@@ -44,16 +44,19 @@ export function KeyframesDemo() {
       <CodeBlock
         code={`gsap.to(".box", {
   keyframes: [
-    { x: 120, scale: 1.2, duration: 0.3, ease: "power2.out" },
-    { y: -40, rotation: 180, duration: 0.3, ease: "power2.inOut" },
-    { x: 0, y: 0, scale: 1, rotation: 360, duration: 0.5, ease: "back.out(1.2)" },
+    { x: 120, scale: 1.15, duration: 0.55, ease: "power2.out" },
+    { y: -28, rotation: 180, duration: 0.55, ease: "power2.inOut" },
+    { x: 0, y: 0, scale: 1, rotation: 360, duration: 0.8, ease: "power3.out" },
   ],
-});`}
+}); // tổng ~1.9s, chậm hơn để nhìn rõ từng keyframe`}
       />
 
       <div className="mt-5 bg-[#0a0a14] rounded-xl border border-white/5 p-6 overflow-hidden">
         <div className="h-[100px] flex items-center">
-          <div className="box-kf w-[56px] h-[56px] rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-[11px] font-mono text-emerald-300 shrink-0">
+          <div
+            className="box-kf w-[56px] h-[56px] rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-[11px] font-mono text-emerald-300 shrink-0 will-change-transform"
+            style={{ willChange: "transform" }}
+          >
             KF
           </div>
         </div>

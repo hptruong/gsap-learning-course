@@ -1,12 +1,21 @@
 /**
- * Widget: Hero — intro với GSAP timeline entrance
+ * Widget: Hero — intro configurable theo page
  * @layer widgets
  */
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { gsap, useGSAP } from "@/shared/lib/gsap";
-import { Sparkles, ChevronDown } from "lucide-react";
+import { Sparkles, ChevronDown, ArrowRight } from "lucide-react";
 
-export function Hero() {
+export interface HeroProps {
+  badge: string;
+  titleLines: { text: string; accent?: boolean; small?: boolean }[];
+  sub: string;
+  sections: { href: string; label: string }[];
+  nextPage?: { to: string; label: string };
+}
+
+export function Hero({ badge, titleLines, sub, sections, nextPage }: HeroProps) {
   const scope = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -23,39 +32,45 @@ export function Hero() {
   return (
     <div ref={scope} className="max-w-[980px] mx-auto px-4 md:px-6 pt-10 md:pt-14 pb-6">
       <div className="hero-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-bold text-indigo-300">
-        <Sparkles size={14} /> GSAP 3.15 · React 19 · Feature-Sliced · 8 Skills
+        <Sparkles size={14} /> {badge}
       </div>
 
       <h1 className="hero-title mt-5 text-[36px] md:text-[52px] font-black tracking-[-0.04em] leading-[0.9]">
-        <span className="inline-block">Tween</span>{" "}
-        <span className="inline-block text-indigo-400">&</span>{" "}
-        <span className="inline-block">Timeline</span>
-        <br />
-        <span className="inline-block text-zinc-500 text-[28px] md:text-[40px]">từ A → Z</span>
+        {titleLines.map((line, i) => (
+          <span key={i}>
+            <span
+              className={`inline-block ${line.accent ? "text-indigo-400" : ""} ${
+                line.small ? "text-zinc-500 text-[28px] md:text-[40px]" : ""
+              }`}
+            >
+              {line.text}
+            </span>{" "}
+          </span>
+        ))}
       </h1>
 
       <p className="hero-sub mt-4 text-sm md:text-[15px] leading-relaxed text-zinc-400 max-w-2xl">
-        Demo tương tác chi tiết cho từng phần của GSAP Tween và Timeline — mỗi ví dụ đều có{" "}
-        <b className="text-zinc-200">code + comment tiếng Việt</b> và nút bấm để chạy thử ngay. Dùng 8
-        GSAP AI Skills chính thức.
+        {sub}
       </p>
 
-      <nav className="hero-nav mt-6 flex flex-wrap gap-2 md:hidden">
-        {[
-          { href: "#tween", label: "Tween" },
-          { href: "#easing", label: "Easing" },
-          { href: "#stagger", label: "Stagger" },
-          { href: "#keyframes", label: "Keyframes" },
-          { href: "#timeline", label: "Timeline" },
-        ].map((n) => (
+      <nav className="hero-nav mt-6 flex flex-wrap items-center gap-2">
+        {sections.map((n) => (
           <a
             key={n.href}
             href={n.href}
-            className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-zinc-300"
+            className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-zinc-300 hover:bg-white/10 transition"
           >
             {n.label}
           </a>
         ))}
+        {nextPage && (
+          <Link
+            to={nextPage.to}
+            className="px-3 py-1.5 rounded-full bg-indigo-600 text-xs font-bold text-white hover:bg-indigo-500 transition flex items-center gap-1.5"
+          >
+            {nextPage.label} <ArrowRight size={13} />
+          </Link>
+        )}
       </nav>
 
       <div className="mt-8 flex items-center gap-2 text-xs text-zinc-500">

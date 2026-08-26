@@ -7,7 +7,7 @@ import { gsap, useGSAP } from "@/shared/lib/gsap";
 import { CodeBlock } from "@/shared/ui/code-block/CodeBlock";
 import { Clock3 } from "lucide-react";
 
-export function ControlledTimeline() {
+export function TimelinePlaybackControl() {
   const scope = useRef<HTMLDivElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const [speed, setSpeed] = useState(1);
@@ -15,20 +15,20 @@ export function ControlledTimeline() {
   useGSAP(
     () => {
       const tl = gsap.timeline({
-        repeat: -1, // lặp vô hạn
-        yoyo: true, // đảo chiều mỗi lần lặp
-        repeatDelay: 0.3,
+        repeat: -1,
+        yoyo: true,
+        repeatDelay: 0.7,
+        defaults: { ease: "power2.inOut", duration: 1.1 },
       });
 
       tl.to(".ctrl-dot", {
         x: 220,
         rotation: 360,
-        backgroundColor: "#6366f1",
-        duration: 0.8,
+        duration: 1.4,
         ease: "power2.inOut",
       })
-        .to(".ctrl-dot", { scale: 1.3, duration: 0.15, ease: "power2.out" }, "-=0.15")
-        .to(".ctrl-dot", { scale: 1, duration: 0.15, ease: "power2.inOut" });
+        .to(".ctrl-dot", { scale: 1.2, duration: 0.28, ease: "power2.out" }, "-=0.3")
+        .to(".ctrl-dot", { scale: 1, duration: 0.32, ease: "power3.out" });
 
       tlRef.current = tl;
     },
@@ -56,27 +56,22 @@ export function ControlledTimeline() {
 
       <CodeBlock
         code={`const tl = gsap.timeline({
-  repeat: -1,       // lặp vô hạn (-1)
-  yoyo: true,       // đảo chiều mỗi lần lặp
-  repeatDelay: 0.3, // nghỉ giữa các lần lặp
-  onStart: () => console.log("bắt đầu"),
-  onComplete: () => console.log("xong 1 lượt"),
-  onUpdate: () => console.log(tl.progress()), // 0 → 1
+  repeat: -1, yoyo: true, repeatDelay: 0.7,
+  defaults: { duration: 1.1, ease: "power2.inOut" }
 });
 
-tl.to(".dot", { x: 220, rotation: 360, duration: 0.8 })
-  .to(".dot", { scale: 1.3, duration: 0.15 }, "-=0.15")
-  .to(".dot", { scale: 1, duration: 0.15 });
-
-// Điều khiển tốc độ toàn bộ timeline
-tl.timeScale(2);   // nhanh gấp đôi
-tl.timeScale(0.5); // chậm một nửa
-tl.pause() / tl.play() / tl.reverse() / tl.progress(0.5)`}
+tl.to(".dot", { x: 220, rotation: 360, duration: 1.4 })
+  .to(".dot", { scale: 1.2, duration: 0.28 }, "-=0.3")
+  .to(".dot", { scale: 1, duration: 0.32, ease: "power3.out" });
+tl.timeScale(2); // nhanh gấp đôi`}
       />
 
       <div className="mt-5 bg-[#0a0a14] rounded-xl border border-white/5 p-6 overflow-hidden">
         <div className="h-[56px] flex items-center">
-          <div className="ctrl-dot w-12 h-12 rounded-xl bg-zinc-700 border border-white/10 flex items-center justify-center text-[10px] font-mono text-white shrink-0">
+          <div
+            className="ctrl-dot w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 border border-white/10 flex items-center justify-center text-[10px] font-mono text-white shrink-0 will-change-transform"
+            style={{ willChange: "transform" }}
+          >
             LOOP
           </div>
         </div>

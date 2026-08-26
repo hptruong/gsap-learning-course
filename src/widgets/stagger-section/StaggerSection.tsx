@@ -3,7 +3,7 @@
  * @layer widgets
  */
 import { Section } from "@/shared/ui/section/Section";
-import { StaggerGrid } from "@/features/gsap-stagger/StaggerGrid";
+import { StaggerGrid } from "@/features/stagger/StaggerGrid";
 import { Layers } from "lucide-react";
 
 export function StaggerSection() {

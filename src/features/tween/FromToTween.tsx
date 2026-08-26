@@ -9,17 +9,16 @@ import { gsap, useGSAP } from "@/shared/lib/gsap";
 import { CodeBlock } from "@/shared/ui/code-block/CodeBlock";
 import { Zap, RotateCcw } from "lucide-react";
 
-export function FromToDemo() {
+export function FromToTween() {
   const scope = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope });
 
   const handleFromTo = contextSafe(() => {
     gsap.killTweensOf(".box-fromto");
-    // fromTo(target, fromVars, toVars) — full control
     gsap.fromTo(
       ".box-fromto",
-      { x: -40, scale: 0.5, rotation: -180, autoAlpha: 0 }, // FROM
-      { x: 220, scale: 1, rotation: 0, autoAlpha: 1, duration: 0.9, ease: "power3.inOut", overwrite: "auto" } // TO
+      { x: -32, scale: 0.6, rotation: -120, autoAlpha: 0 },
+      { x: 220, scale: 1, rotation: 0, autoAlpha: 1, duration: 1.2, ease: "power3.inOut", overwrite: "auto" }
     );
   });
 
@@ -42,20 +41,21 @@ export function FromToDemo() {
       </p>
 
       <CodeBlock
-        code={`// gsap.fromTo(target, fromVars, toVars)
+        code={`// gsap.fromTo — timing chậm hơn để rõ quỹ đạo
 gsap.fromTo(".box",
-  { x: -40, scale: 0.5, rotation: -180, autoAlpha: 0 }, // FROM
-  { x: 220, scale: 1, rotation: 0, autoAlpha: 1,         // TO
-    duration: 0.9, ease: "power3.inOut" }
+  { x: -32, scale: 0.6, rotation: -120, autoAlpha: 0 },
+  { x: 220, scale: 1, rotation: 0, autoAlpha: 1,
+    duration: 1.2, ease: "power3.inOut" }
 );
-
-// gsap.set() — áp dụng ngay, không animate (dùng để reset)
-gsap.set(".box", { clearProps: "all" }); // xóa inline style`}
+gsap.set(".box", { clearProps: "all" });`}
       />
 
       <div className="mt-5 bg-[#0a0a14] rounded-xl border border-white/5 p-6 overflow-hidden">
         <div className="h-[72px] flex items-center">
-          <div className="box-fromto w-[64px] h-[64px] rounded-xl bg-fuchsia-500/20 border border-fuchsia-500/30 flex items-center justify-center text-[11px] font-mono text-fuchsia-300 shrink-0">
+          <div
+            className="box-fromto w-[64px] h-[64px] rounded-xl bg-fuchsia-500/20 border border-fuchsia-500/30 flex items-center justify-center text-[11px] font-mono text-fuchsia-300 shrink-0 will-change-transform"
+            style={{ willChange: "transform, opacity" }}
+          >
             F→T
           </div>
         </div>

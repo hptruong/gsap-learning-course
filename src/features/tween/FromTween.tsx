@@ -11,20 +11,18 @@ import { gsap, useGSAP } from "@/shared/lib/gsap";
 import { CodeBlock } from "@/shared/ui/code-block/CodeBlock";
 import { Sparkles } from "lucide-react";
 
-export function FromDemo() {
+export function FromTween() {
   const scope = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope });
 
   const handleFrom = contextSafe(() => {
-    // Kill tween cũ trước khi tạo mới để tránh stack khi spam click
     gsap.killTweensOf(".box-from");
-    // gsap.from() — bắt đầu TỪ giá trị chỉ định, animate về CSS gốc
     gsap.from(".box-from", {
-      y: 60, // bắt đầu thấp hơn 60px → bay lên vị trí gốc
-      autoAlpha: 0, // dùng autoAlpha thay vì opacity (gsap-performance)
-      scale: 0.8,
-      duration: 0.7,
-      ease: "back.out(1.4)", // vượt đích rồi bật lại — đàn hồi
+      y: 48,
+      autoAlpha: 0,
+      scale: 0.86,
+      duration: 0.95,
+      ease: "power3.out",
       overwrite: "auto",
     });
   });
@@ -43,19 +41,19 @@ export function FromDemo() {
       </p>
 
       <CodeBlock
-        code={`// gsap.from(target, vars) — animate TỪ giá trị chỉ định về CSS gốc
+        code={`// gsap.from — chậm hơn để thấy entrance rõ
 gsap.from(".box", {
-  y: 60,                 // bắt đầu thấp hơn 60px
-  autoAlpha: 0,          // autoAlpha = opacity + visibility
-  scale: 0.8,            // bắt đầu nhỏ hơn
-  duration: 0.7,
-  ease: "back.out(1.4)", // overshoot đàn hồi
+  y: 48, autoAlpha: 0, scale: 0.86,
+  duration: 0.95, ease: "power3.out",
 });`}
       />
 
       <div className="mt-5 bg-[#0a0a14] rounded-xl border border-white/5 p-6 overflow-hidden">
         <div className="h-[72px] flex items-center">
-          <div className="box-from w-[64px] h-[64px] rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-[11px] font-mono text-amber-300 shrink-0">
+          <div
+            className="box-from w-[64px] h-[64px] rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-[11px] font-mono text-amber-300 shrink-0 will-change-transform"
+            style={{ willChange: "transform, opacity" }}
+          >
             FROM
           </div>
         </div>

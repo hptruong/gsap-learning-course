@@ -18,23 +18,16 @@ const EASINGS: { name: string; ease: string; color: string }[] = [
   { name: "expo.inOut", ease: "expo.inOut", color: "#a78bfa" },
 ];
 
-export function EasingRace() {
+export function EasingRaceTrack() {
   const scope = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope });
 
   const runAll = contextSafe(() => {
-    // Kill tweens cũ để tránh overlap khi bấm liên tục (gsap-performance)
     gsap.killTweensOf(".ease-dot");
     gsap.set(".ease-dot", { x: 0 });
+    const tl = gsap.timeline({ defaults: { duration: 1.7, overwrite: "auto" } });
     EASINGS.forEach((e, i) => {
-      // Cùng quãng đường + duration, khác ease → so sánh trực quan
-      gsap.to(`.ease-dot-${i}`, {
-        x: 240,
-        duration: 1.2,
-        ease: e.ease,
-        delay: 0.05 * i, // stagger nhẹ để dễ nhìn
-        overwrite: "auto", // tránh conflict khi spam click
-      });
+      tl.to(`.ease-dot-${i}`, { x: 220, ease: e.ease }, i === 0 ? 0 : "<0.08");
     });
   });
 
@@ -42,9 +35,9 @@ export function EasingRace() {
     gsap.killTweensOf(".ease-dot");
     gsap.to(".ease-dot", {
       x: 0,
-      duration: 0.4,
-      ease: "power2.inOut",
-      stagger: 0.03,
+      duration: 0.65,
+      ease: "power3.out",
+      stagger: { each: 0.05, from: "start" },
       overwrite: "auto",
     });
   });
@@ -65,11 +58,11 @@ export function EasingRace() {
       </p>
 
       <CodeBlock
-        code={`// Chỉ cần đổi ease — cùng tween, cảm giác khác hẳn
-gsap.to(".box", { x: 240, duration: 1.2, ease: "power3.out" });    // mượt, tự nhiên
-gsap.to(".box", { x: 240, duration: 1.2, ease: "back.out(1.7)" }); // vượt đích rồi bật lại
-gsap.to(".box", { x: 240, duration: 1.2, ease: "elastic.out(1,0.3)" }); // đàn hồi
-gsap.to(".box", { x: 240, duration: 1.2, ease: "bounce.out" });    // nảy như bóng`}
+        code={`// Dùng timeline + position "<0.05" để stagger mượt hơn delay
+const tl = gsap.timeline();
+tl.to(".box1", { x: 220, ease: "power3.out" }, 0)
+  .to(".box2", { x: 220, ease: "back.out(1.7)" }, "<0.05")
+  .to(".box3", { x: 220, ease: "elastic.out(1,0.3)" }, "<0.05");`}
       />
 
       <div className="mt-5 bg-[#0a0a14] rounded-xl border border-white/5 p-5 overflow-hidden">
@@ -84,8 +77,8 @@ gsap.to(".box", { x: 240, duration: 1.2, ease: "bounce.out" });    // nảy như
               </span>
               <div className="flex-1 h-[28px] bg-white/[0.04] rounded-full border border-white/5 relative overflow-hidden flex items-center px-1">
                 <div
-                  className={`ease-dot ease-dot-${i} w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[9px] font-bold text-white`}
-                  style={{ background: e.color }}
+                  className={`ease-dot ease-dot-${i} w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[9px] font-bold text-white will-change-transform`}
+                  style={{ background: e.color, willChange: "transform" }}
                 >
                   {i + 1}
                 </div>

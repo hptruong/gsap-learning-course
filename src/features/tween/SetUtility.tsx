@@ -7,7 +7,7 @@ import { gsap, useGSAP } from "@/shared/lib/gsap";
 import { CodeBlock } from "@/shared/ui/code-block/CodeBlock";
 import { RotateCcw } from "lucide-react";
 
-export function SetDemo() {
+export function SetUtility() {
   const scope = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope });
   const [hidden, setHidden] = useState(false);
@@ -25,7 +25,7 @@ export function SetDemo() {
       gsap.to(".box-set", {
         autoAlpha: nextHidden ? 0 : 1,
         y: nextHidden ? -10 : 0,
-        duration: 0.4,
+        duration: 0.6,
         ease: "power2.inOut",
         overwrite: "auto",
       });

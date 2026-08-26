@@ -15,24 +15,22 @@ export function StaggerGrid() {
   const [mode, setMode] = useState<"each" | "grid" | "center" | "random">("each");
 
   const run = contextSafe(() => {
-    // Kill tween cũ + reset về trạng thái gốc để tránh flash khi spam click
     gsap.killTweensOf(".stagger-box");
     gsap.set(".stagger-box", { clearProps: "all" });
 
     const configs: Record<string, gsap.StaggerVars> = {
-      each: { each: 0.08 },
-      grid: { amount: 0.8, grid: [2, 4], from: "start" as const },
-      center: { amount: 0.6, from: "center" as const },
-      random: { each: 0.07, from: "random" as const },
+      each: { each: 0.12 },
+      grid: { amount: 0.95, grid: [2, 4], from: "start" as const },
+      center: { amount: 0.85, from: "center" as const },
+      random: { each: 0.1, from: "random" as const },
     };
 
     gsap.from(".stagger-box", {
-      y: 30,
+      y: 28,
       autoAlpha: 0,
-      scale: 0.85,
-      rotation: -5,
-      duration: 0.5,
-      ease: "back.out(1.4)",
+      scale: 0.9,
+      duration: 0.9,
+      ease: "power3.out",
       stagger: configs[mode],
       overwrite: "auto",
     });
@@ -53,17 +51,14 @@ export function StaggerGrid() {
       </p>
 
       <CodeBlock
-        code={`// stagger đơn giản — mỗi box cách nhau 0.08s
-gsap.from(".box", { y: 30, autoAlpha: 0, stagger: { each: 0.08 } });
+        code={`// stagger chậm hơn — dễ nhìn lan tỏa
+gsap.from(".box", { y: 28, autoAlpha: 0, scale: 0.9, stagger: { each: 0.12 } });
 
-// stagger theo grid 2×4 — lan tỏa như sóng
-gsap.from(".box", { y: 30, autoAlpha: 0, stagger: { amount: 0.8, grid: [2,4] } });
+// theo grid
+gsap.from(".box", { y: 28, autoAlpha: 0, stagger: { amount: 0.95, grid: [2,4] } });
 
 // từ giữa lan ra
-gsap.from(".box", { y: 30, autoAlpha: 0, stagger: { amount: 0.6, from: "center" } });
-
-// ngẫu nhiên
-gsap.from(".box", { y: 30, autoAlpha: 0, stagger: { each: 0.07, from: "random" } });`}
+gsap.from(".box", { y: 28, autoAlpha: 0, stagger: { amount: 0.85, from: "center" } });`}
       />
 
       <div className="mt-5 bg-[#0a0a14] rounded-xl border border-white/5 p-5 overflow-hidden">
@@ -71,7 +66,8 @@ gsap.from(".box", { y: 30, autoAlpha: 0, stagger: { each: 0.07, from: "random" }
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="stagger-box h-[56px] rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 border border-white/10 flex items-center justify-center text-xs font-mono font-bold text-white"
+              className="stagger-box h-[56px] rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 border border-white/10 flex items-center justify-center text-xs font-mono font-bold text-white will-change-transform"
+              style={{ willChange: "transform, opacity" }}
             >
               {i + 1}
             </div>

@@ -3,9 +3,9 @@
  * @layer widgets
  */
 import { Section } from "@/shared/ui/section/Section";
-import { BasicTimeline } from "@/features/gsap-timeline/BasicTimeline";
-import { ControlledTimeline } from "@/features/gsap-timeline/ControlledTimeline";
-import { NestedTimeline } from "@/features/gsap-timeline/NestedTimeline";
+import { TimelineSequence } from "@/features/timeline/TimelineSequence";
+import { TimelinePlaybackControl } from "@/features/timeline/TimelinePlaybackControl";
+import { NestedTimelineSequence } from "@/features/timeline/NestedTimelineSequence";
 import { Clock3 } from "lucide-react";
 
 export function TimelineSection() {
@@ -18,9 +18,9 @@ export function TimelineSection() {
       icon={<Clock3 size={16} />}
     >
       <div className="space-y-4">
-        <BasicTimeline />
-        <ControlledTimeline />
-        <NestedTimeline />
+        <TimelineSequence />
+        <TimelinePlaybackControl />
+        <NestedTimelineSequence />
       </div>
 
       <div className="mt-4 rounded-2xl border border-indigo-500/20 bg-indigo-500/[0.04] p-4 md:p-5">
