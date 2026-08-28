@@ -1,0 +1,27 @@
+{
+  "nav": { "searchPlaceholder": "Tìm bài học...", "searchNoResults": "Không có bài học phù hợp.", "gsapDocs": "Tài liệu GSAP chính thức", "previous": "Bài trước", "next": "Bài tiếp", "lessonNavigation": "Điều hướng bài học" },
+  "learning": { "courseName": "Lộ trình GSAP", "yourProgress": "Tiến độ của bạn", "complete": "hoàn thành", "done": "Đã xong", "inProgress": "Đang học", "lesson": "Bài học", "minutes": "phút", "outcome": "Sau bài này bạn sẽ", "markComplete": "Đánh dấu đã hoàn thành", "completed": "Đã hoàn thành", "practiceHint": "Hoàn thành checkpoint để mở khóa tự tin cho bài tiếp theo.", "lessons": "bài học", "tracksLabel": "giai đoạn", "levels": "beginner → advanced", "curriculumLabel": "Lộ trình thực hành", "curriculumDescription": "Không đọc API theo thứ tự bảng chữ cái. Mỗi giai đoạn kết thúc bằng một thứ bạn tự xây được — rồi mới đi tiếp.", "tracks": { "foundation": { "label": "Giai đoạn 01", "title": "Nền tảng chuyển động", "description": "Nắm grammar của GSAP và xây các interaction đầu tiên." }, "interaction": { "label": "Giai đoạn 02", "title": "Điều hướng & tương tác", "description": "Kết nối motion với scroll, SVG, text và lifecycle component." }, "advanced": { "label": "Giai đoạn 03", "title": "Thiết kế để ship", "description": "Biến kỹ thuật thành hệ thống motion có thể dùng trong sản phẩm thật." } } },
+  "hero": { "badge": "Course thực hành · Beginner → Advanced", "description": "Học GSAP bằng cách xây, thử và tự kiểm tra. Mỗi bài là một kỹ năng motion có thể dùng được, không phải một trang API để lướt qua.", "startLearning": "Bắt đầu bài 01", "roadmap": "Xem lộ trình" },
+  "toc": { "courseContent": "Thư viện bài học" },
+  "sections": { "start": "Bắt đầu", "core": "Animation cốt lõi", "scroll": "Animation theo cuộn", "specialized": "Text và SVG", "frameworks": "Tích hợp framework", "production": "Production và thực hành", "reference": "Tham chiếu" },
+  "pages": {
+    "00-introduction": { "navTitle": "00. Giới thiệu", "description": "GSAP là gì và cách cài đặt", "keywords": "cài đặt setup npm cdn target plugin" },
+    "01-basics": { "navTitle": "01. Tween cơ bản", "description": "to, from, fromTo, set và transform", "keywords": "tween gsap to from fromTo set transform autoAlpha fouc" },
+    "02-easing": { "navTitle": "02. Easing", "description": "Đường cong thời gian và cảm giác chuyển động", "keywords": "ease power bounce elastic custom ease" },
+    "03-stagger": { "navTitle": "03. Stagger", "description": "Tạo độ trễ cho nhóm animation", "keywords": "stagger grid distribute list" },
+    "04-timeline": { "navTitle": "04. Timeline", "description": "Sắp xếp, định vị và điều khiển animation", "keywords": "timeline labels position callbacks play pause reverse" },
+    "05-scroll-trigger": { "navTitle": "05. ScrollTrigger", "description": "Viewport trigger, scrub, pin và scroll responsive", "keywords": "scroll trigger scrub pin refresh matchMedia" },
+    "06-text": { "navTitle": "06. Text", "description": "SplitText dễ tiếp cận và hiệu ứng chữ", "keywords": "splittext scrambletext text accessibility aria" },
+    "07-svg": { "navTitle": "07. SVG", "description": "SVG transform, vẽ stroke và path", "keywords": "svg drawsvg morphsvg motionpath stroke" },
+    "08-react": { "navTitle": "08. React", "description": "useGSAP, cleanup và tích hợp SSR an toàn", "keywords": "react usegsap context cleanup ssr next" },
+    "09-advanced": { "navTitle": "09. Kỹ thuật production", "description": "Performance, accessibility và plugin nâng cao", "keywords": "performance accessibility flip draggable observer lenis" },
+    "10-projects": { "navTitle": "10. Dự án capstone", "description": "Đề bài thực hành và tiêu chí hoàn thành", "keywords": "project capstone portfolio storytelling landing page" },
+    "11-landing-page": { "navTitle": "11. Landing page", "description": "Motion có mục đích cho trang sản phẩm", "keywords": "landing page hero conversion motion" },
+    "12-awwwards-patterns": { "navTitle": "12. Creative patterns", "description": "Pattern thị giác nâng cao cần đánh giá kỹ", "keywords": "creative patterns kinetic typography reveal" },
+    "13-visual-design": { "navTitle": "13. Motion design", "description": "Hierarchy thị giác và nguyên lý chuyển động", "keywords": "design typography color composition motion principles" },
+    "14-gsap-utilities": { "navTitle": "14. GSAP utilities", "description": "Utility methods và helper tái sử dụng", "keywords": "utils clamp mapRange wrap quickTo ticker matchMedia" },
+    "15-common-patterns": { "navTitle": "15. Common patterns", "description": "Pattern tương tác và các đánh đổi khi triển khai", "keywords": "carousel marquee counter cursor parallax" },
+    "glossary": { "navTitle": "Glossary", "description": "Thuật ngữ animation", "keywords": "terms definitions glossary" },
+    "roadmap": { "navTitle": "Lộ trình", "description": "Kế hoạch học dựa trên nguồn kiểm chứng", "keywords": "roadmap curriculum course sources" }
+  }
+}

@@ -1,0 +1,59 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>06. Text Animation Có Accessibility | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="06-text-animation-c-accessibility">06. Text Animation Có Accessibility</h1><blockquote>
+<p><strong>Mục tiêu:</strong> animate text mà không làm screen reader đọc từng ký tự hoặc làm line split sai khi resize.</p>
+</blockquote>
+<h2 id="ch-n-ng-c-ng-c">Chọn đúng công cụ</h2><table>
+<thead>
+<tr>
+<th>Nhu cầu</th>
+<th>Công cụ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Đổi nội dung đơn giản</td>
+<td><code>TextPlugin</code> hoặc DOM text an toàn.</td>
+</tr>
+<tr>
+<td>Reveal theo word, char, line</td>
+<td><code>SplitText</code>.</td>
+</tr>
+<tr>
+<td>Hiệu ứng giải mã/chữ nhiễu</td>
+<td><code>ScrambleTextPlugin</code>.</td>
+</tr>
+</tbody></table>
+<p>Tất cả plugin GSAP hiện nằm trong package <code>gsap</code>, nhưng phải import/register. Text animation là enhancement: heading phải đọc được nếu JavaScript không chạy.</p>
+<h2 id="splittext-responsive">SplitText responsive</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">import</span> gsap <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;gsap&quot;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">SplitText</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;gsap/SplitText&quot;</span>;
+
+gsap.<span class="hljs-title function_">registerPlugin</span>(<span class="hljs-title class_">SplitText</span>);
+
+<span class="hljs-keyword">const</span> split = <span class="hljs-title class_">SplitText</span>.<span class="hljs-title function_">create</span>(<span class="hljs-string">&quot;.headline&quot;</span>, {
+  <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;lines,words&quot;</span>,
+  <span class="hljs-attr">mask</span>: <span class="hljs-string">&quot;lines&quot;</span>,
+  <span class="hljs-attr">autoSplit</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-title function_">onSplit</span>(<span class="hljs-params"><span class="hljs-variable language_">self</span></span>) {
+    <span class="hljs-keyword">return</span> gsap.<span class="hljs-title function_">from</span>(<span class="hljs-variable language_">self</span>.<span class="hljs-property">lines</span>, {
+      <span class="hljs-attr">yPercent</span>: <span class="hljs-number">110</span>,
+      <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">stagger</span>: <span class="hljs-number">0.08</span>,
+      <span class="hljs-attr">duration</span>: <span class="hljs-number">0.55</span>,
+      <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power3.out&quot;</span>,
+    });
+  },
+});</code></pre></div><p><code>autoSplit: true</code> revert và split lại khi font/load width làm line thay đổi. Animation phải được tạo trong <code>onSplit()</code> và <strong>return</strong> animation để GSAP cleanup/sync đúng khi re-split.</p>
+<h2 id="accessibility">Accessibility</h2><p>Với plain text, SplitText mặc định thêm <code>aria-label</code> vào parent và <code>aria-hidden</code> vào các phần đã split. Đây là lý do không được tự làm <code>text.split(&quot;&quot;)</code>: cách đó hỏng emoji/grapheme và khiến screen reader đọc ký tự rời rạc.</p>
+<p>Nếu heading có link hoặc markup mang nghĩa, <code>aria-label</code> không giữ được semantics đó. Dùng <code>aria: &quot;none&quot;</code> và giữ một bản sao screen-reader-only theo <a href="https://gsap.com/resources/a11y/">GSAP accessibility guide</a>. Chỉ split phần text bạn thực sự animate; char split tốn DOM hơn word/line split.</p>
+<h2 id="scrambletext-ng-c-ph-p">ScrambleText đúng cú pháp</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">ScrambleTextPlugin</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;gsap/ScrambleTextPlugin&quot;</span>;
+
+gsap.<span class="hljs-title function_">registerPlugin</span>(<span class="hljs-title class_">ScrambleTextPlugin</span>);
+gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.status&quot;</span>, {
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">0.6</span>,
+  <span class="hljs-attr">scrambleText</span>: { <span class="hljs-attr">text</span>: <span class="hljs-string">&quot;Đã lưu&quot;</span>, <span class="hljs-attr">chars</span>: <span class="hljs-string">&quot;01&quot;</span>, <span class="hljs-attr">revealDelay</span>: <span class="hljs-number">0.15</span> },
+});</code></pre></div><p><code>text: {}</code> là TextPlugin, không phải ScrambleText. Không dùng scramble cho status quan trọng nếu người dùng cần đọc nó ngay.</p>
+<h2 id="b-i-t-p">Bài tập</h2><p>Tạo heading line reveal có custom font. Resize trang và kiểm tra line split lại. Sau đó tạo bản reduced motion chỉ fade hoặc hiển thị ngay.</p>
+<p><strong>Tiêu chí đạt:</strong> screen reader đọc nguyên câu; không có nested link bị mất nghĩa; <code>split.revert()</code> được gọi khi bạn tự teardown outside context.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/docs/v3/Plugins/SplitText/">SplitText API</a></li>
+<li><a href="https://gsap.com/docs/v3/Plugins/ScrambleTextPlugin/">ScrambleText API</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"06-text","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

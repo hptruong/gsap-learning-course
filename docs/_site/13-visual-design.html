@@ -1,0 +1,136 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>13. Motion Design cho Developer: Thiết Kế Quan Hệ, Không Chỉ Duration | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="13-motion-design-cho-developer-thi-t-k-quan-h-kh-ng-ch-duration">13. Motion Design cho Developer: Thiết Kế Quan Hệ, Không Chỉ Duration</h1><blockquote>
+<p><strong>Mục tiêu:</strong> biến một UI tĩnh thành motion system nhất quán bằng hierarchy, spatial continuity, timing token và feedback — không chọn ease ngẫu nhiên cho từng component.</p>
+</blockquote>
+<p>Motion design không phải lớp polish đặt lên cuối. Layout, reading order, contrast và interaction state quyết định motion nào có ý nghĩa. Nếu component tĩnh chưa rõ, animation chỉ làm lỗi khó nhìn hơn.</p>
+<h2 id="b-n-nguy-n-l-d-ng-c-ngay-trong-ui">Bốn nguyên lý dùng được ngay trong UI</h2><table>
+<thead>
+<tr>
+<th>Nguyên lý</th>
+<th>Câu hỏi khi code</th>
+<th>Ví dụ đúng</th>
+<th>Lỗi thường gặp</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hierarchy</td>
+<td>Mắt phải đến đâu trước?</td>
+<td>Title vào trước supporting copy; CTA ổn định sau.</td>
+<td>Mọi element stagger như nhau.</td>
+</tr>
+<tr>
+<td>Spatial continuity</td>
+<td>Object đi đâu khi state đổi?</td>
+<td>Card mở rộng từ card đã click, origin gần điểm click.</td>
+<td>Modal xuất hiện từ góc vô nghĩa.</td>
+</tr>
+<tr>
+<td>Causality</td>
+<td>User vừa làm gì và hệ thống phản hồi gì?</td>
+<td>Button nhấn → trạng thái loading/complete rõ.</td>
+<td>Decorative bounce sau action nghiêm túc.</td>
+</tr>
+<tr>
+<td>Restraint</td>
+<td>Motion có tranh attention với content không?</td>
+<td>Một primary transition trong viewport.</td>
+<td>Parallax, marquee, cursor cùng chạy.</td>
+</tr>
+</tbody></table>
+<h2 id="b-t-u-b-ng-state-map">Bắt đầu bằng state map</h2><p>Không viết <code>gsap.to()</code> trước khi biết state. Với một card expansion, map như sau:</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Visual</th>
+<th>Semantic / interaction</th>
+<th>Motion role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rest</td>
+<td>Card compact, CTA visible</td>
+<td>Button <code>aria-expanded=&quot;false&quot;</code></td>
+<td>Không cần motion.</td>
+</tr>
+<tr>
+<td>Pressed</td>
+<td>Focus vẫn ở button</td>
+<td><code>aria-expanded=&quot;true&quot;</code> ngay lúc state đổi</td>
+<td>Feedback 100–200ms.</td>
+</tr>
+<tr>
+<td>Open</td>
+<td>Detail và close control xuất hiện</td>
+<td>Focus chuyển có chủ ý nếu dialog</td>
+<td>Continuity từ card sang detail.</td>
+</tr>
+<tr>
+<td>Close</td>
+<td>Trở về card ban đầu</td>
+<td>Focus quay lại trigger</td>
+<td>Reverse hoặc transition ngắn.</td>
+</tr>
+</tbody></table>
+<p>Accessibility state không được chờ <code>onComplete</code>. Code state trước, GSAP chỉ diễn tả visual state.</p>
+<h2 id="t-o-motion-tokens-thay-v-magic-number">Tạo motion tokens thay vì magic number</h2><p>Một product không cần 20 ease khác nhau. Bắt đầu bằng token có tên theo mục đích:</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> motion = {
+  <span class="hljs-attr">duration</span>: {
+    <span class="hljs-attr">feedback</span>: <span class="hljs-number">0.16</span>,
+    <span class="hljs-attr">enter</span>: <span class="hljs-number">0.42</span>,
+    <span class="hljs-attr">transition</span>: <span class="hljs-number">0.55</span>,
+  },
+  <span class="hljs-attr">ease</span>: {
+    <span class="hljs-attr">enter</span>: <span class="hljs-string">&quot;power3.out&quot;</span>,
+    <span class="hljs-attr">state</span>: <span class="hljs-string">&quot;power2.inOut&quot;</span>,
+    <span class="hljs-attr">data</span>: <span class="hljs-string">&quot;none&quot;</span>,
+  },
+  <span class="hljs-attr">distance</span>: {
+    <span class="hljs-attr">small</span>: <span class="hljs-number">8</span>,
+    <span class="hljs-attr">medium</span>: <span class="hljs-number">20</span>,
+  },
+};</code></pre></div><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.dialog__content&quot;</span>, {
+  <span class="hljs-attr">y</span>: motion.<span class="hljs-property">distance</span>.<span class="hljs-property">medium</span>,
+  <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">duration</span>: motion.<span class="hljs-property">duration</span>.<span class="hljs-property">enter</span>,
+  <span class="hljs-attr">ease</span>: motion.<span class="hljs-property">ease</span>.<span class="hljs-property">enter</span>,
+});</code></pre></div><p>Token là starting point, không phải luật vật lý. Khi component cần chậm hơn vì đọc text, ghi lý do; không copy duration từ hero sang tooltip chỉ vì “brand consistency”.</p>
+<h2 id="easing-n-i-g-v-i-user">Easing nói gì với user?</h2><ul>
+<li><code>power3.out</code>: object/content đi vào, nhanh xác lập rồi chậm lại để đọc.</li>
+<li><code>power2.inOut</code>: đổi giữa hai state có trọng số ngang nhau, như tab hoặc panel.</li>
+<li><code>none</code>: progress/data/scroll phải giữ quan hệ 1:1.</li>
+<li><code>back.out(...)</code>: feedback nhỏ có personality; không phải default cho modal/form.</li>
+</ul>
+<p>Duration và distance đi cùng nhau. Một object chỉ đi 8px trong 0.8 giây sẽ có cảm giác lag; một panel đi 80px trong 0.12 giây sẽ giống teleport. Test ở tốc độ touch/mobile, không chỉ mouse desktop.</p>
+<h2 id="design-critique-s-a-m-t-sequence-l-n-x-n">Design critique: sửa một sequence lộn xộn</h2><p><strong>Trước:</strong> hero title, image, nav, 6 cards cùng fade/scale/bounce; CTA bị reveal cuối sau 1.8 giây.</p>
+<p><strong>Sau:</strong></p>
+<ol>
+<li>Nav và CTA có sẵn ngay — chúng là navigation, không phải reward.</li>
+<li>Eyebrow → title → supporting text dùng một timeline với <code>power3.out</code>.</li>
+<li>Product image reveal sau title, không cạnh tranh với reading order.</li>
+<li>Feature cards chỉ reveal khi user scroll đến; reduce motion hiển thị sẵn.</li>
+<li>Decorative loop chỉ chạy nếu không che content, dừng khi tab hidden nếu cần.</li>
+</ol>
+<p>Đây là hierarchy bằng motion: bỏ nhiều animation thường tạo cảm giác premium hơn thêm effect.</p>
+<h2 id="react-typescript-tokens-kh-ng-thay-lifecycle">React + TypeScript: tokens không thay lifecycle</h2><div class="code-block"><div class="code-block-header"><span><i></i>tsx</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-tsx"><span class="hljs-keyword">const</span> motion = { <span class="hljs-attr">enter</span>: <span class="hljs-number">0.45</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power3.out&quot;</span> } <span class="hljs-keyword">as</span> <span class="hljs-keyword">const</span>;
+
+<span class="hljs-title function_">useGSAP</span>(<span class="hljs-function">() =&gt;</span> {
+  gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.product-title&quot;</span>, {
+    <span class="hljs-attr">y</span>: <span class="hljs-number">20</span>,
+    <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">duration</span>: motion.<span class="hljs-property">enter</span>,
+    <span class="hljs-attr">ease</span>: motion.<span class="hljs-property">ease</span>,
+  });
+}, { <span class="hljs-attr">scope</span>: root });</code></pre></div><p>Token được import được không có nghĩa selector được global. Vẫn scope root, cleanup và tạo motion trong lifecycle client. Khi theme/reduced-motion setting của app đổi, dùng <code>gsap.matchMediaRefresh()</code> hoặc recreate context có chủ ý, không mutate global tween bừa bãi.</p>
+<h2 id="b-i-t-p-motion-critique-c-b-ng-ch-ng">Bài tập: motion critique có bằng chứng</h2><ol>
+<li>Chọn một feature card hoặc modal đang có trong project.</li>
+<li>Vẽ rest / pressed / open / close và viết semantic state của từng bước.</li>
+<li>Chọn tối đa 2 duration, 2 ease và 2 distance token.</li>
+<li>Implement state transition; quay video normal và reduced motion.</li>
+<li>Xóa một effect mà không làm product mất nghĩa, ghi lý do.</li>
+</ol>
+<p><strong>Tiêu chí đạt:</strong> user biết element nào quan trọng trước; state/focus đúng cả khi animation tắt; không có hai primary motion cạnh tranh trong cùng viewport; và token có tên theo intent.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/docs/v3/Eases/">GSAP easing guide</a></li>
+<li><a href="https://gsap.com/resources/a11y/">GSAP accessibility guide</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"13-visual-design","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

@@ -1,0 +1,110 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>01. Tween Cơ Bản | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="01-tween-c-b-n">01. Tween Cơ Bản</h1><blockquote>
+<p><strong>Mục tiêu:</strong> chọn đúng <code>to()</code>, <code>from()</code>, <code>fromTo()</code> hoặc <code>set()</code>, và biết vì sao một animation bị nháy hoặc chạy sai state.</p>
+</blockquote>
+<h2 id="c-u-tr-c-m-t-tween">Cấu trúc một tween</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> tween = gsap.<span class="hljs-title function_">to</span>(target, vars);</code></pre></div><p><code>target</code> có thể là selector, một DOM element, NodeList hoặc array. <code>vars</code> chứa state đích và các option. <code>duration</code> dùng đơn vị giây, mặc định là <code>0.5</code>; ease mặc định là <code>&quot;power1.out&quot;</code>.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> card = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;.card&quot;</span>);
+
+<span class="hljs-keyword">const</span> tween = gsap.<span class="hljs-title function_">to</span>(card, {
+  <span class="hljs-attr">x</span>: <span class="hljs-number">80</span>,
+  <span class="hljs-attr">rotation</span>: <span class="hljs-number">8</span>,
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">0.5</span>,
+  <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span>,
+});</code></pre></div><p>Ưu tiên direct element reference như trên trong component; selector chỉ an toàn khi nó được scope đúng vùng DOM.</p>
+<h2 id="b-n-method-c-n-nh">Bốn method cần nhớ</h2><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Điểm bắt đầu</th>
+<th>Điểm kết thúc</th>
+<th>Khi dùng</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>to()</code></td>
+<td>computed state hiện tại</td>
+<td>vars</td>
+<td>Di chuyển, đổi state, hover.</td>
+</tr>
+<tr>
+<td><code>from()</code></td>
+<td>vars</td>
+<td>computed state hiện tại</td>
+<td>Entrance đơn giản.</td>
+</tr>
+<tr>
+<td><code>fromTo()</code></td>
+<td>fromVars</td>
+<td>toVars</td>
+<td>Cần kiểm soát cả hai đầu.</td>
+</tr>
+<tr>
+<td><code>set()</code></td>
+<td>không có animation</td>
+<td>vars ngay lập tức</td>
+<td>Chuẩn bị state hoặc reset.</td>
+</tr>
+</tbody></table>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.card&quot;</span>, { <span class="hljs-attr">x</span>: <span class="hljs-number">120</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.4</span> });
+gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.title&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">24</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.5</span> });
+gsap.<span class="hljs-title function_">fromTo</span>(<span class="hljs-string">&quot;.dot&quot;</span>, { <span class="hljs-attr">scale</span>: <span class="hljs-number">0</span> }, { <span class="hljs-attr">scale</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.25</span> });
+gsap.<span class="hljs-title function_">set</span>(<span class="hljs-string">&quot;.menu&quot;</span>, { <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: -<span class="hljs-number">8</span> });</code></pre></div><p><code>autoAlpha</code> đặt cả <code>opacity</code> và <code>visibility</code>. Khi bằng 0, element không nhận click; vì vậy nó thường tốt hơn <code>opacity: 0</code> cho panel bị ẩn.</p>
+<h2 id="transform-properties">Transform properties</h2><p>Các property sau thường tránh layout work và là lựa chọn đầu tiên cho motion:</p>
+<table>
+<thead>
+<tr>
+<th>GSAP</th>
+<th>CSS tương đương</th>
+<th>Đơn vị mặc định</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>x</code>, <code>y</code></td>
+<td><code>translateX</code>, <code>translateY</code></td>
+<td>px</td>
+</tr>
+<tr>
+<td><code>xPercent</code>, <code>yPercent</code></td>
+<td>translate theo kích thước element</td>
+<td>%</td>
+</tr>
+<tr>
+<td><code>scale</code></td>
+<td>scale cả hai trục</td>
+<td>số</td>
+</tr>
+<tr>
+<td><code>rotation</code></td>
+<td>rotate</td>
+<td>deg</td>
+</tr>
+<tr>
+<td><code>transformOrigin</code></td>
+<td>điểm xoay/scale</td>
+<td>chuỗi CSS</td>
+</tr>
+</tbody></table>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.badge&quot;</span>, {
+  <span class="hljs-attr">xPercent</span>: -<span class="hljs-number">50</span>,
+  <span class="hljs-attr">yPercent</span>: -<span class="hljs-number">50</span>,
+  <span class="hljs-attr">transformOrigin</span>: <span class="hljs-string">&quot;center center&quot;</span>,
+  <span class="hljs-attr">scale</span>: <span class="hljs-number">1.2</span>,
+});</code></pre></div><p>Không mặc định animate <code>top</code>, <code>left</code>, <code>width</code> hoặc <code>height</code> để tạo chuyển động. Chúng có thể cần layout lại; chỉ dùng khi chính layout mới là kết quả mong muốn.</p>
+<h2 id="from-v-l-i-nh-y-m-n-h-nh"><code>from()</code> và lỗi nháy màn hình</h2><p><code>from()</code> áp dụng start state ngay khi tween được tạo (<code>immediateRender</code> mặc định là <code>true</code>). Điều này hữu ích cho entrance, nhưng có thể ghi đè state của tween <code>from()</code> khác hoặc làm content nháy trước khi JavaScript load.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>html</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-html"><span class="hljs-comment">&lt;!-- CSS giữ content ẩn trước khi JavaScript chạy --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hero-title&quot;</span>&gt;</span>Học GSAP<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css"><span class="hljs-selector-class">.hero-title</span> { <span class="hljs-attribute">visibility</span>: hidden; }</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">gsap.<span class="hljs-title function_">fromTo</span>(
+  <span class="hljs-string">&quot;.hero-title&quot;</span>,
+  { <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">24</span> },
+  { <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.6</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power3.out&quot;</span> },
+);</code></pre></div><p>Nếu nhiều tween <code>from()</code> cùng animate property của một target, đặt <code>immediateRender: false</code> cho tween chạy sau hoặc tổ chức chúng trong timeline. Đừng thêm <code>delay</code> để che lỗi state.</p>
+<h2 id="gi-tr-h-u-ch">Giá trị hữu ích</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.chip&quot;</span>, { <span class="hljs-attr">x</span>: <span class="hljs-string">&quot;+=24&quot;</span> });          <span class="hljs-comment">// tương đối</span>
+gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.item&quot;</span>, { <span class="hljs-attr">rotation</span>: <span class="hljs-string">&quot;random(-8, 8)&quot;</span> });
+gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.item&quot;</span>, { <span class="hljs-attr">x</span>: <span class="hljs-function">(<span class="hljs-params">index</span>) =&gt;</span> index * <span class="hljs-number">24</span> });
+gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;:root&quot;</span>, { <span class="hljs-string">&quot;--brand-hue&quot;</span>: <span class="hljs-number">220</span> }); <span class="hljs-comment">// CSS variable</span></code></pre></div><h2 id="b-i-t-p">Bài tập</h2><p>Tạo card có ba state: vào trang, hover, rời hover. Dùng <code>fromTo()</code> cho entrance, <code>to()</code> trong hover và <code>set()</code> để reset state ban đầu.</p>
+<p><strong>Tiêu chí đạt:</strong> card không nháy khi refresh, không chặn click khi ẩn, và hover nhanh nhiều lần không để lại transform sai.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/docs/v3/GSAP/Tween">Tween API</a></li>
+<li><a href="https://gsap.com/resources/fouc">Avoiding FOUC</a></li>
+<li><a href="https://gsap.com/resources/immediaterender">immediateRender</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"01-basics","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

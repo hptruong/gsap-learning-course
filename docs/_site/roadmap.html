@@ -1,0 +1,152 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lộ Trình Học GSAP: Beginner Đến Advanced | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="l-tr-nh-h-c-gsap-beginner-n-advanced">Lộ Trình Học GSAP: Beginner Đến Advanced</h1><p>Đây là lộ trình thực hành, không phải danh sách API để đọc một lần. Nó đi theo trình tự <a href="https://gsap.com/resources/">GSAP Learning Resources</a>, sau đó bổ sung cách dạy thực hành đã công khai của <a href="https://www.creativecodingclub.com/bundles/creative-coding-club">Creative Coding Club</a> và <a href="https://vwlab.io/products/web-animations">VWLAB Mastering Web Animations</a>. GSAP Docs vẫn là nguồn quyết định khi course example và API hiện tại khác nhau.</p>
+<h2 id="n-n-h-c-trong-bao-l-u">Nên học trong bao lâu?</h2><p>Dành 3-5 buổi mỗi tuần, mỗi buổi 45-90 phút. Không chuyển module chỉ vì đã đọc xong. Chỉ chuyển khi bạn hoàn thành artifact ở cột cuối từ một file trống.</p>
+<h2 id="l-tr-nh-b-t-bu-c">Lộ trình bắt buộc</h2><table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Bài</th>
+<th>Bạn học gì</th>
+<th>Artifact phải hoàn thành</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0. Chuẩn bị</td>
+<td>00</td>
+<td>DOM, CSS transform, cài GSAP, tween đầu tiên</td>
+<td>Một file HTML chạy được <code>gsap.to()</code> bằng CDN.</td>
+</tr>
+<tr>
+<td>1. Core grammar</td>
+<td>01-03</td>
+<td>Tween methods, state ban đầu, ease, stagger</td>
+<td>Card entrance/hover/exit không nháy và grid reveal có reduced motion.</td>
+</tr>
+<tr>
+<td>2. Choreography</td>
+<td>04</td>
+<td>Timeline, labels, position parameter, playback</td>
+<td>Menu hoặc modal mở/đóng không dùng chained <code>delay</code>.</td>
+</tr>
+<tr>
+<td>3. Safe scroll</td>
+<td>05</td>
+<td>Trigger lifecycle, start/end, scrub, pin, refresh, matchMedia</td>
+<td>Story section pin trên desktop, flow dọc trên mobile.</td>
+</tr>
+<tr>
+<td>4. Specialization</td>
+<td>06-07</td>
+<td>Accessible text, SVG transforms, DrawSVG, MorphSVG, MotionPath</td>
+<td>Một text reveal hoặc SVG illustration có cleanup và semantics.</td>
+</tr>
+<tr>
+<td>5. Framework branch</td>
+<td>08</td>
+<td>React <code>useGSAP</code>, scope, contextSafe, SSR</td>
+<td>Component mount/unmount/update không duplicate animation.</td>
+</tr>
+<tr>
+<td>6. Production</td>
+<td>09, 14</td>
+<td>Performance, a11y, Flip, utilities, high-frequency input</td>
+<td>Pointer interaction dùng <code>quickTo()</code> và reduced-motion fallback.</td>
+</tr>
+<tr>
+<td>7. Practice</td>
+<td>10-15</td>
+<td>Capstone, landing-page motion, creative patterns</td>
+<td>Một project static-first có motion inventory và QA evidence.</td>
+</tr>
+</tbody></table>
+<h2 id="c-ch-l-m-m-i-b-i">Cách làm mỗi bài</h2><ol>
+<li><strong>Chạy ví dụ:</strong> không sửa gì trong lần chạy đầu.</li>
+<li><strong>Dự đoán:</strong> thay một value, ghi kết quả bạn nghĩ sẽ xảy ra.</li>
+<li><strong>Phá có chủ đích:</strong> tạo lỗi được mô tả trong phần pitfalls, sau đó sửa.</li>
+<li><strong>Làm bài tập:</strong> không nhìn lại code mẫu trong 15 phút đầu.</li>
+<li><strong>Tự review:</strong> kiểm tra keyboard, viewport 375px, <code>prefers-reduced-motion</code>, console và resize.</li>
+</ol>
+<h2 id="nh-nh-t-y-ch-n-ch-h-c-sau-core">Nhánh tùy chọn, chỉ học sau core</h2><ul>
+<li><strong>Scroll nâng cao:</strong> horizontal <code>containerAnimation</code>, custom scroller, smooth scrolling. Học sau khi native ScrollTrigger và responsive flow đã ổn.</li>
+<li><strong>Creative patterns:</strong> cursor, marquee, clip-path, page transition, carousel. Mỗi pattern phải có mục đích nội dung, fallback và cleanup.</li>
+<li><strong>Plugins UI:</strong> Flip, Draggable, Inertia, Observer, ScrollTo. Không cần học tất cả để dùng GSAP hiệu quả.</li>
+<li><strong>Webflow:</strong> là nhánh implementation riêng, không thay cho kiến thức core API.</li>
+</ul>
+<h2 id="c-ng-ch-t-l-ng-tr-c-capstone">Cổng chất lượng trước capstone</h2><ul>
+<li>Không animate layout property nếu transform hoặc opacity đạt cùng kết quả.</li>
+<li>Không để animation quyết định state accessibility; code state và ARIA phải đúng cả khi animation bị tắt.</li>
+<li>Mọi ScrollTrigger được tạo trong lifecycle có cleanup/revert.</li>
+<li>Không có FOUC, console error, listener/ticker bị rò hoặc marker production.</li>
+<li>Có reduced-motion alternative cho motion lớn, scroll scrub, cursor follower và text split.</li>
+</ul>
+<h2 id="benchmark-course-c-ph-ang-m-ki-m-tra-catalog">Benchmark course có phí đang mở (đã kiểm tra catalog)</h2><p>Đây là benchmark về <strong>cấu trúc học</strong>, không phải endorsement hay lý do để copy curriculum. Catalog và availability thay đổi; kiểm tra landing page trước khi mua.</p>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>Đã kiểm tra từ landing page</th>
+<th>Nó bổ sung gì cho curriculum này</th>
+<th>Giới hạn cần biết</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://www.creativecodingclub.com/bundles/creative-coding-club">Creative Coding Club</a></td>
+<td>Bundle hiện công bố hơn 250 bài GSAP, gồm Core, ScrollTrigger và SVG.</td>
+<td>Mô hình lesson ngắn → demo → challenge; sâu nhất cho vanilla JavaScript/creative patterns.</td>
+<td>Không thay API authority của GSAP Docs; React + TypeScript không phải trọng tâm công bố của bundle.</td>
+</tr>
+<tr>
+<td><a href="https://vwlab.io/products/web-animations">VWLAB — Mastering Web Animations</a></td>
+<td>Landing page hiện nêu HTML/CSS/JS &amp; GSAP, kèm nhánh no-code Webflow và chapter index.</td>
+<td>Cách đi từ motion principle, core grammar đến visual implementation/product page.</td>
+<td>Cần tự đối chiếu API version và giữ native-scroll/reduced-motion baseline.</td>
+</tr>
+<tr>
+<td><a href="https://www.awwwards.com/academy/course/design-meaningful-experiences-through-an-animation-system">Awwwards Academy — Animation System</a></td>
+<td>Catalog hiện ghi 7 lessons / 4 hours; chapter sample gồm motion thinking, CTA, logo và slideshow.</td>
+<td>Art direction, storytelling và system thinking — nguồn bổ sung cho bài 12–13.</td>
+<td>Không phải GSAP/React API curriculum; dùng để học decision design, không copy effect.</td>
+</tr>
+<tr>
+<td><a href="https://www.awwwards.com/academy/course/creative-coding-2-0-in-js-animation-sound-color">Awwwards Academy — Creative Coding 2.0 in JS</a></td>
+<td>Catalog hiện ghi 7 lessons, với arcs, image data, particles, cursor interaction và color.</td>
+<td>Creative JavaScript, input performance và visual experimentation sau khi đã vững core.</td>
+<td>Không phải điểm bắt đầu cho beginner và không thay phần accessibility/product UI.</td>
+</tr>
+<tr>
+<td><a href="https://gsap.com/resources/React/">Official GSAP React guide</a> + <a href="https://github.com/greensock/react"><code>@gsap/react</code></a></td>
+<td>Nguồn hiện hành cho <code>useGSAP</code>, scope, <code>contextSafe</code>, cleanup và SSR.</td>
+<td>Baseline đáng tin nhất cho React + TypeScript; đã được đưa vào bài 08 và 12.</td>
+<td>Đây là reference miễn phí, không phải video course; ưu tiên khi course thương mại dùng API cũ.</td>
+</tr>
+</tbody></table>
+<p><strong>Về “viral”:</strong> không dùng lượt view, TikTok clip hay danh sách Udemy biến động làm tiêu chí curriculum. Với GSAP, tín hiệu tốt hơn là catalog còn hoạt động, code sample có lifecycle/a11y, và syllabus đi từ DOM/CSS/JS core trước effect. Vì vậy course trên được chọn theo source/outline có thể kiểm tra, không theo hype.</p>
+<h2 id="ngu-n-d-ng-thi-t-k-curriculum">Nguồn dùng để thiết kế curriculum</h2><table>
+<thead>
+<tr>
+<th>Nguồn</th>
+<th>Đóng góp đã xác minh</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://gsap.com/resources/">GSAP Resources</a></td>
+<td>Trình tự chính thức: installation, tween, easing, stagger, timeline, control/callback, plugins và chuyên sâu.</td>
+</tr>
+<tr>
+<td><a href="https://gsap.com/docs/v3/">GSAP Docs</a></td>
+<td>API hiện tại cho core, plugins, utilities và framework integration.</td>
+</tr>
+<tr>
+<td><a href="https://www.creativecodingclub.com/pages/300-lessons-old">Creative Coding Club</a></td>
+<td>Mô hình lesson nhỏ, visualizer, challenge/solution; core, SVG, advanced timeline, ScrollTrigger, project. Danh sách này được trang ghi là cũ, chỉ dùng để đối chiếu độ sâu.</td>
+</tr>
+<tr>
+<td><a href="https://www.creativecodingclub.com/courses/ScrollTrigger-Express">ScrollTrigger Express</a></td>
+<td>Tiến trình basics, scrub/pin, parallax, responsive, matchMedia và horizontal scroll.</td>
+</tr>
+<tr>
+<td><a href="https://vwlab.io/products/web-animations">VWLAB syllabus</a></td>
+<td>Setup, tween, stagger, easing, callbacks, timeline/control trước lookbook và effect thực hành.</td>
+</tr>
+</tbody></table>
+<h2 id="khi-n-o-b-n-s-n-s-ng-h-c-advanced">Khi nào bạn đã sẵn sàng học advanced?</h2><p>Bạn có thể tự giải thích <code>from()</code> khác <code>fromTo()</code> thế nào, dựng timeline không dùng delay chain, debug <code>start/end</code> bằng markers, và làm một page vẫn usable khi reduced motion. Nếu chưa, quay lại phase tương ứng. Advanced effect không bù được foundation yếu.</p>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"roadmap","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

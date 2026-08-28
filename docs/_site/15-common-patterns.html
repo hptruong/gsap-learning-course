@@ -1,0 +1,103 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>15. Common Patterns: Chọn Constraint Trước Snippet | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="15-common-patterns-ch-n-constraint-tr-c-snippet">15. Common Patterns: Chọn Constraint Trước Snippet</h1><blockquote>
+<p><strong>Mục tiêu:</strong> đánh giá magnetic button, carousel, marquee, counter, image reveal và page transition bằng input, semantics, fallback và cleanup trước khi copy code.</p>
+</blockquote>
+<p>Một pattern chỉ là interaction tốt khi nó giữ được mục đích trên keyboard, touch, reduced motion, resize và route change. Nếu không qua các constraint này, để nó ở sandbox — đừng ship.</p>
+<h2 id="decision-matrix">Decision matrix</h2><table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Dùng khi</th>
+<th>Không dùng khi</th>
+<th>Fallback bắt buộc</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Magnetic button</td>
+<td>CTA phụ, pointer chính xác, vùng hit lớn</td>
+<td>Form submit, touch-first UI, mọi link</td>
+<td>Native hover/focus, offset 0.</td>
+</tr>
+<tr>
+<td>Carousel</td>
+<td>Có bộ slide hữu hạn cần so sánh</td>
+<td>Content có thể là list/grid bình thường</td>
+<td>Buttons, keyboard, selected state.</td>
+</tr>
+<tr>
+<td>Marquee</td>
+<td>Label trang trí hoặc brand list ngắn</td>
+<td>Nó là cách duy nhất để đọc text/link</td>
+<td>Static wrapped text + pause.</td>
+</tr>
+<tr>
+<td>Counter</td>
+<td>Số liệu có ngữ cảnh và final value</td>
+<td>User cần giá trị chính xác ngay</td>
+<td>Final number trong HTML.</td>
+</tr>
+<tr>
+<td>Image reveal</td>
+<td>Visual có thể bắt đầu static</td>
+<td>Image là LCP/content bị ẩn</td>
+<td>Visible image/caption.</td>
+</tr>
+<tr>
+<td>Page transition</td>
+<td>Cùng-app state change rõ ràng</td>
+<td>Chỉ để che loading/navigation</td>
+<td>Native navigation và focus/history đúng.</td>
+</tr>
+</tbody></table>
+<h2 id="magnetic-button-input-aware-v-bounded">Magnetic button: input-aware và bounded</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> mm = gsap.<span class="hljs-title function_">matchMedia</span>();
+<span class="hljs-keyword">const</span> button = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;.magnetic&quot;</span>);
+
+mm.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> xTo = gsap.<span class="hljs-title function_">quickTo</span>(button, <span class="hljs-string">&quot;x&quot;</span>, { <span class="hljs-attr">duration</span>: <span class="hljs-number">0.2</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power3.out&quot;</span> });
+  <span class="hljs-keyword">const</span> yTo = gsap.<span class="hljs-title function_">quickTo</span>(button, <span class="hljs-string">&quot;y&quot;</span>, { <span class="hljs-attr">duration</span>: <span class="hljs-number">0.2</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power3.out&quot;</span> });
+
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">move</span> = (<span class="hljs-params">event</span>) =&gt; {
+    <span class="hljs-keyword">const</span> rect = button.<span class="hljs-title function_">getBoundingClientRect</span>();
+    <span class="hljs-title function_">xTo</span>(gsap.<span class="hljs-property">utils</span>.<span class="hljs-title function_">clamp</span>(-<span class="hljs-number">12</span>, <span class="hljs-number">12</span>, (event.<span class="hljs-property">clientX</span> - rect.<span class="hljs-property">left</span> - rect.<span class="hljs-property">width</span> / <span class="hljs-number">2</span>) * <span class="hljs-number">0.25</span>));
+    <span class="hljs-title function_">yTo</span>(gsap.<span class="hljs-property">utils</span>.<span class="hljs-title function_">clamp</span>(-<span class="hljs-number">12</span>, <span class="hljs-number">12</span>, (event.<span class="hljs-property">clientY</span> - rect.<span class="hljs-property">top</span> - rect.<span class="hljs-property">height</span> / <span class="hljs-number">2</span>) * <span class="hljs-number">0.25</span>));
+  };
+  <span class="hljs-keyword">const</span> <span class="hljs-title function_">leave</span> = (<span class="hljs-params"></span>) =&gt; gsap.<span class="hljs-title function_">to</span>(button, { <span class="hljs-attr">x</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.25</span>, <span class="hljs-attr">overwrite</span>: <span class="hljs-string">&quot;auto&quot;</span> });
+  button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;pointermove&quot;</span>, move);
+  button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;pointerleave&quot;</span>, leave);
+  <span class="hljs-keyword">return</span> <span class="hljs-function">() =&gt;</span> { button.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&quot;pointermove&quot;</span>, move); button.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&quot;pointerleave&quot;</span>, leave); };
+});</code></pre></div><p><code>quickTo()</code> tái sử dụng tween. Media query làm touch/reduced motion không nhận listener; cleanup return chạy khi query không còn match. Button vẫn là native <code>button</code>/<code>a</code> với focus ring.</p>
+<h2 id="carousel-animation-kh-ng-thay-accessibility-model">Carousel: animation không thay accessibility model</h2><p>Carousel bounded và infinite loop là hai bài toán khác nhau. Bắt đầu bounded:</p>
+<ol>
+<li>HTML có heading, list slide và button previous/next tên rõ.</li>
+<li>Một biến <code>activeIndex</code> là source of truth; update <code>aria-current</code>, disabled state và live announcement có chủ ý.</li>
+<li>Keyboard: button native hoạt động; không hijack Arrow key toàn page; focus không rơi vào content hidden.</li>
+<li>GSAP chỉ animate slide đang rời/vào. Dùng <code>overwrite: &quot;auto&quot;</code> khi click nhanh.</li>
+<li>Destroy remove listener/tween; nếu clone node để loop, không duplicate ID hoặc focusable content.</li>
+</ol>
+<p><code>horizontalLoop()</code> là helper/community pattern, không phải built-in API. Đọc source/demo trước khi dùng và chứng minh duplicate node không làm screen reader hoặc tab order sai.</p>
+<h2 id="marquee-v-counter-data-ph-i-t-n-t-i-tr-c-animation">Marquee và counter: data phải tồn tại trước animation</h2><p>Marquee dùng <code>ease: &quot;none&quot;</code> nếu loop, pause bằng hover/focus và reduced motion giữ static. Không duplicate interactive link để tạo loop; nếu duplicate decorative text, thêm <code>aria-hidden=&quot;true&quot;</code> cho clone.</p>
+<p>Counter phải render final value có nghĩa trước:</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>html</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Đã tiết kiệm <span class="hljs-tag">&lt;<span class="hljs-name">strong</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;metric&quot;</span>&gt;</span>0<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> giờ mỗi tuần.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></code></pre></div><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> value = { <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> };
+gsap.<span class="hljs-title function_">to</span>(value, {
+  <span class="hljs-attr">count</span>: <span class="hljs-number">128</span>,
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">0.8</span>,
+  <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power1.out&quot;</span>,
+  <span class="hljs-attr">snap</span>: { <span class="hljs-attr">count</span>: <span class="hljs-number">1</span> },
+  <span class="hljs-attr">onUpdate</span>: <span class="hljs-function">() =&gt;</span> { <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;.metric&quot;</span>).<span class="hljs-property">textContent</span> = <span class="hljs-title class_">String</span>(value.<span class="hljs-property">count</span>); },
+});</code></pre></div><p>Không announce mỗi frame với <code>aria-live</code>; chỉ announce final change nếu user action cần feedback. Với giá trị thay đổi từ server, semantic text/data phải đúng trước rồi motion mới là enhancement.</p>
+<h2 id="image-reveal-v-page-transition">Image reveal và page transition</h2><p><code>clip-path</code> reveal cần ảnh static visible nếu JavaScript tắt. Chỉ thêm class <code>.js</code> sau khi script sẵn sàng; đừng hide ảnh base CSS. Test image crop, contrast caption và GPU mobile.</p>
+<p>Page transition không được trì hoãn navigation lâu, làm mất focus hoặc phá back/forward. Bắt đầu bằng transition trong một component/page; nếu sau này dùng router transition, define rõ: route mới render khi nào, focus heading nào, navigation pending state và cleanup animation cũ ở đâu.</p>
+<h2 id="checklist-ship">Checklist ship</h2><ul>
+<li><input disabled="" type="checkbox"> Content/action có lý do tồn tại không cần effect.</li>
+<li><input disabled="" type="checkbox"> Pointer, keyboard, touch và focus state đều hoạt động.</li>
+<li><input disabled="" type="checkbox"> Reduced motion/static fallback đã test, không chỉ <code>timeScale</code> global.</li>
+<li><input disabled="" type="checkbox"> Không tạo tween/listener không giới hạn ở input/frame.</li>
+<li><input disabled="" type="checkbox"> Route/component teardown không còn transform, trigger, clone node hoặc listener cũ.</li>
+<li><input disabled="" type="checkbox"> Có screenshot/video normal + 375px + keyboard + reduced motion.</li>
+</ul>
+<h2 id="b-i-t-p">Bài tập</h2><p>Chọn <strong>một</strong> pattern. Viết decision matrix riêng, dựng static fallback, implement bản desktop tối giản, rồi test checklist. Nếu không trả lời được một hàng, bỏ effect hoặc giữ nó trong playground.</p>
+<p><strong>Tiêu chí đạt:</strong> pattern không là cách duy nhất để hiểu content; có source of truth cho state; và cleanup/fallback là một phần của implementation chứ không phải ghi chú cuối bài.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/docs/v3/GSAP/UtilityMethods/">GSAP utility methods</a></li>
+<li><a href="https://gsap.com/resources/a11y/">GSAP accessibility</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"15-common-patterns","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

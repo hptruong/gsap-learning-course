@@ -1,0 +1,59 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>02. Easing và Cảm Giác Chuyển Động | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="02-easing-v-c-m-gi-c-chuy-n-ng">02. Easing và Cảm Giác Chuyển Động</h1><blockquote>
+<p><strong>Mục tiêu:</strong> chọn ease theo ý nghĩa UI thay vì chọn vì “trông hay”.</p>
+</blockquote>
+<p>Easing điều khiển <strong>tốc độ thay đổi</strong> của tween. Nó không thay đổi quãng đường. Hậu tố <code>.in</code> bắt đầu chậm, <code>.out</code> kết thúc chậm, <code>.inOut</code> chậm ở cả đầu và cuối.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.card&quot;</span>, { <span class="hljs-attr">x</span>: <span class="hljs-number">180</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.6</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span> });
+gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.dialog&quot;</span>, { <span class="hljs-attr">scale</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.25</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.inOut&quot;</span> });
+gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.progress&quot;</span>, { <span class="hljs-attr">scaleX</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;none&quot;</span> });</code></pre></div><h2 id="ch-n-ease-theo-ng-c-nh">Chọn ease theo ngữ cảnh</h2><table>
+<thead>
+<tr>
+<th>Ý định</th>
+<th>Điểm bắt đầu tốt</th>
+<th>Lý do</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Content đi vào</td>
+<td><code>power2.out</code> hoặc <code>power3.out</code></td>
+<td>Nhanh xuất hiện, chậm ổn định.</td>
+</tr>
+<tr>
+<td>Đổi state</td>
+<td><code>power2.inOut</code></td>
+<td>Cảm giác cân bằng hai state.</td>
+</tr>
+<tr>
+<td>Tiến trình/scroll</td>
+<td><code>none</code></td>
+<td>Không làm sai quan hệ 1:1 với dữ liệu hoặc scroll.</td>
+</tr>
+<tr>
+<td>Feedback nhỏ</td>
+<td><code>back.out(1.4)</code></td>
+<td>Có overshoot nhẹ, không nên dùng cho nội dung quan trọng.</td>
+</tr>
+<tr>
+<td>Loop trang trí</td>
+<td><code>sine.inOut</code></td>
+<td>Chuyển động mềm, không giật.</td>
+</tr>
+</tbody></table>
+<p><code>elastic</code> và <code>bounce</code> thu hút chú ý mạnh. Hãy dùng chúng cho game hoặc personality rõ ràng, không dùng mặc định cho form, modal hay điều hướng.</p>
+<h2 id="th-nghi-m-tr-c-quan">Thử nghiệm trực quan</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> eases = [<span class="hljs-string">&quot;none&quot;</span>, <span class="hljs-string">&quot;power2.out&quot;</span>, <span class="hljs-string">&quot;power2.inOut&quot;</span>, <span class="hljs-string">&quot;back.out(1.4)&quot;</span>];
+
+eases.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">ease, index</span>) =&gt;</span> {
+  gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">`.demo-<span class="hljs-subst">${index}</span>`</span>, { <span class="hljs-attr">x</span>: <span class="hljs-number">220</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">1</span>, ease, <span class="hljs-attr">repeat</span>: -<span class="hljs-number">1</span>, <span class="hljs-attr">yoyo</span>: <span class="hljs-literal">true</span> });
+});</code></pre></div><p>Chạy bốn hàng cạnh nhau. Đừng chỉ quan sát điểm cuối, hãy quan sát thời gian object tăng tốc và giảm tốc.</p>
+<h2 id="easing-v-scrolltrigger">Easing và ScrollTrigger</h2><p>Khi <code>scrub</code> nối progress animation với scroll, dùng <code>ease: &quot;none&quot;</code> cho tween hoặc timeline được scrub. Nếu thêm ease, vị trí scroll và vị trí visual không còn tuyến tính, người dùng sẽ thấy cảm giác trượt không đúng tay.</p>
+<h2 id="customease-ch-khi-c-n">CustomEase, chỉ khi cần</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">CustomEase</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;gsap/CustomEase&quot;</span>;
+
+gsap.<span class="hljs-title function_">registerPlugin</span>(<span class="hljs-title class_">CustomEase</span>);
+<span class="hljs-title class_">CustomEase</span>.<span class="hljs-title function_">create</span>(<span class="hljs-string">&quot;product-enter&quot;</span>, <span class="hljs-string">&quot;.16,1,.3,1&quot;</span>);
+gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.panel&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;product-enter&quot;</span> });</code></pre></div><p>Tên custom ease theo mục đích. Một design system thường chỉ cần vài curve nhất quán; không tạo curve mới cho từng component.</p>
+<h2 id="b-i-t-p">Bài tập</h2><p>Làm ba phiên bản cùng một notification: entrance, dismiss và progress bar. Ghi một câu giải thích tại sao mỗi ease phản ánh đúng mục đích.</p>
+<p><strong>Tiêu chí đạt:</strong> progress dùng <code>none</code>; không có ease làm người dùng chờ đọc content; duration và easing nhất quán trong một component.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/docs/v3/Eases/">GSAP Eases</a></li>
+<li><a href="https://gsap.com/docs/v3/Eases/CustomEase/">Ease Visualizer</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"02-easing","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

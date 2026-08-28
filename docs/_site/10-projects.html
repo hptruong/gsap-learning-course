@@ -1,0 +1,99 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>10. Capstone: Học Bằng Cách Hoàn Thành Dự Án | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="10-capstone-h-c-b-ng-c-ch-ho-n-th-nh-d-n">10. Capstone: Học Bằng Cách Hoàn Thành Dự Án</h1><blockquote>
+<p><strong>Mục tiêu:</strong> biến API thành kỹ năng xây dựng sản phẩm, không chỉ sưu tầm effect.</p>
+</blockquote>
+<p>Mỗi capstone bắt đầu bằng trang tĩnh. Chỉ thêm motion sau khi hierarchy, content và responsive layout đã hoạt động không có JavaScript.</p>
+<h2 id="capstone-1-accessible-hero">Capstone 1: Accessible Hero</h2><p><strong>Brief:</strong> tạo hero cho portfolio hoặc product với eyebrow, heading, mô tả và CTA.</p>
+<ol>
+<li>Viết HTML và CSS để toàn bộ content đọc được ngay khi JS tắt.</li>
+<li>Dùng một timeline có labels để reveal content theo thứ tự.</li>
+<li>Thêm nút replay, nhưng không tự động replay vô hạn.</li>
+<li>Reduced motion chỉ fade hoặc giữ state cuối.</li>
+</ol>
+<p><strong>Acceptance criteria:</strong> keyboard focus CTA không bị che; refresh không FOUC; timeline không dùng delay chain; nội dung chính sẵn sàng trong thời gian ngắn.</p>
+<h2 id="capstone-2-responsive-feature-story">Capstone 2: Responsive Feature Story</h2><p><strong>Brief:</strong> giải thích ba feature product bằng scroll, không làm mobile thành horizontal scroll khó dùng.</p>
+<ol>
+<li>Tạo ba section flow dọc bình thường.</li>
+<li>Thêm one-shot reveal bằng ScrollTrigger và markers trong development.</li>
+<li>Chỉ desktop mới dùng một pinned explainer ngắn nếu pin thực sự giúp giải thích.</li>
+<li>Dùng <code>gsap.matchMedia()</code> để revert desktop ScrollTriggers khi về mobile.</li>
+<li>Test ảnh và web font load chậm, sau đó refresh đúng một lần khi layout ổn định.</li>
+</ol>
+<p><strong>Acceptance criteria:</strong> mobile không pin/scrub; reduced motion không có scroll-linked movement; markers không ship; resize không làm trigger sai vị trí.</p>
+<h2 id="capstone-3-text-ho-c-svg-specialist">Capstone 3: Text hoặc SVG Specialist</h2><p>Chọn <strong>một</strong> hướng:</p>
+<ul>
+<li>Text: SplitText line reveal với custom font, <code>autoSplit</code>, screen reader test và <code>revert()</code>.</li>
+<li>SVG: stroke reveal và MotionPath ở nhiều viewBox size, có nhãn cho SVG mang nghĩa.</li>
+</ul>
+<p><strong>Acceptance criteria:</strong> không dùng manual <code>split(&quot;&quot;)</code>; không animate fill bằng DrawSVG; teardown không để lại split markup hoặc plugin instance.</p>
+<h2 id="capstone-4-product-landing-page">Capstone 4: Product Landing Page</h2><h3 id="motion-inventory-tr-c-khi-code">Motion inventory trước khi code</h3><table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Mục đích</th>
+<th>Trigger</th>
+<th>Fallback</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hero copy</td>
+<td>Dẫn mắt vào hierarchy</td>
+<td>page load</td>
+<td>visible ngay/fade.</td>
+</tr>
+<tr>
+<td>Feature cards</td>
+<td>Nhóm hóa nội dung</td>
+<td>viewport enter</td>
+<td>visible ngay.</td>
+</tr>
+<tr>
+<td>Product visual</td>
+<td>Giải thích chi tiết</td>
+<td>optional scroll</td>
+<td>static image.</td>
+</tr>
+<tr>
+<td>CTA</td>
+<td>Feedback tương tác</td>
+<td>hover/focus</td>
+<td>CSS state.</td>
+</tr>
+</tbody></table>
+<p>Không có mục đích và fallback thì bỏ animation.</p>
+<h2 id="handoff-checklist">Handoff checklist</h2><ul>
+<li>Link repository, cách chạy và screenshot/video ngắn.</li>
+<li>Motion inventory và lý do chọn mỗi effect.</li>
+<li>Matrix test: desktop, 375px, keyboard, reduced motion, slow network.</li>
+<li>Chrome Performance evidence trước/sau nếu có effect nặng.</li>
+<li>Retrospective: effect nào bị bỏ và vì sao.</li>
+</ul>
+<h2 id="c-ch-t-ch-m">Cách tự chấm</h2><table>
+<thead>
+<tr>
+<th>Tiêu chí</th>
+<th>Câu hỏi</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mục đích</td>
+<td>Motion có giúp hiểu hierarchy, feedback hoặc orientation không?</td>
+</tr>
+<tr>
+<td>Kỹ thuật</td>
+<td>Có timeline/cleanup/registration đúng API không?</td>
+</tr>
+<tr>
+<td>Accessibility</td>
+<td>Reduced motion, focus, semantics có giữ nguyên không?</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Có test thiết bị yếu và tránh layout work không?</td>
+</tr>
+<tr>
+<td>Chất lượng code</td>
+<td>Component/animation có teardown, tên rõ và không duplicate state không?</td>
+</tr>
+</tbody></table>
+<p>Capstone đạt khi mọi hàng đều có bằng chứng, không phải khi trang có nhiều effect nhất.</p>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"10-projects","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

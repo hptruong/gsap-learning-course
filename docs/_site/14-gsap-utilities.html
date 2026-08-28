@@ -1,0 +1,63 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>14. GSAP Utilities và High-Frequency Interaction | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="14-gsap-utilities-v-high-frequency-interaction">14. GSAP Utilities và High-Frequency Interaction</h1><blockquote>
+<p><strong>Mục tiêu:</strong> biến phép tính lặp lại thành helper rõ ràng và tránh tạo tween mới ở mỗi pointer event.</p>
+</blockquote>
+<h2 id="utility-n-n-h-c-tr-c">Utility nên học trước</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> clamp = gsap.<span class="hljs-property">utils</span>.<span class="hljs-title function_">clamp</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+<span class="hljs-keyword">const</span> progress = <span class="hljs-title function_">clamp</span>(rawProgress);
+<span class="hljs-keyword">const</span> x = gsap.<span class="hljs-property">utils</span>.<span class="hljs-title function_">mapRange</span>(<span class="hljs-number">0</span>, <span class="hljs-variable language_">window</span>.<span class="hljs-property">innerWidth</span>, -<span class="hljs-number">40</span>, <span class="hljs-number">40</span>, pointerX);
+<span class="hljs-keyword">const</span> index = gsap.<span class="hljs-property">utils</span>.<span class="hljs-title function_">wrap</span>(<span class="hljs-number">0</span>, items.<span class="hljs-property">length</span>, currentIndex + <span class="hljs-number">1</span>);
+<span class="hljs-keyword">const</span> nearest = gsap.<span class="hljs-property">utils</span>.<span class="hljs-title function_">snap</span>(<span class="hljs-number">8</span>, value);</code></pre></div><table>
+<thead>
+<tr>
+<th>Utility</th>
+<th>Khi dùng</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>toArray()</code></td>
+<td>Chuẩn hóa selector/NodeList thành array.</td>
+</tr>
+<tr>
+<td><code>clamp()</code></td>
+<td>Giới hạn value, ví dụ progress 0-1.</td>
+</tr>
+<tr>
+<td><code>mapRange()</code> / <code>normalize()</code></td>
+<td>Map pointer/scroll/data sang range khác.</td>
+</tr>
+<tr>
+<td><code>wrap()</code></td>
+<td>Index carousel hoặc loop có giới hạn.</td>
+</tr>
+<tr>
+<td><code>snap()</code></td>
+<td>Làm tròn về step hợp lệ.</td>
+</tr>
+<tr>
+<td><code>interpolate()</code></td>
+<td>Nội suy màu, số hoặc object.</td>
+</tr>
+<tr>
+<td><code>pipe()</code></td>
+<td>Ghép transform dữ liệu nhỏ.</td>
+</tr>
+</tbody></table>
+<h2 id="quickto-cho-pointer-follower"><code>quickTo()</code> cho pointer follower</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> xTo = gsap.<span class="hljs-title function_">quickTo</span>(<span class="hljs-string">&quot;.cursor&quot;</span>, <span class="hljs-string">&quot;x&quot;</span>, { <span class="hljs-attr">duration</span>: <span class="hljs-number">0.25</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power3.out&quot;</span> });
+<span class="hljs-keyword">const</span> yTo = gsap.<span class="hljs-title function_">quickTo</span>(<span class="hljs-string">&quot;.cursor&quot;</span>, <span class="hljs-string">&quot;y&quot;</span>, { <span class="hljs-attr">duration</span>: <span class="hljs-number">0.25</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power3.out&quot;</span> });
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">moveCursor</span>(<span class="hljs-params">event</span>) {
+  <span class="hljs-title function_">xTo</span>(event.<span class="hljs-property">clientX</span>);
+  <span class="hljs-title function_">yTo</span>(event.<span class="hljs-property">clientY</span>);
+}
+
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;pointermove&quot;</span>, moveCursor);
+<span class="hljs-comment">// teardown: window.removeEventListener(&quot;pointermove&quot;, moveCursor)</span></code></pre></div><p><code>quickTo()</code> tái sử dụng tween thay vì tạo một tween mới cho mỗi event. Chỉ bật pattern này cho pointer chính xác và <code>prefers-reduced-motion: no-preference</code>; touch không cần cursor follower.</p>
+<h2 id="ticker-v-cleanup">Ticker và cleanup</h2><p><code>gsap.ticker</code> hữu ích khi bạn cần đồng bộ một cập nhật per-frame với GSAP. Nó không tự tốt hơn <code>requestAnimationFrame</code> cho mọi việc. Luôn lưu function reference:</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> <span class="hljs-title function_">update</span> = (<span class="hljs-params">time</span>) =&gt; <span class="hljs-title function_">render</span>(time);
+gsap.<span class="hljs-property">ticker</span>.<span class="hljs-title function_">add</span>(update);
+<span class="hljs-comment">// teardown</span>
+gsap.<span class="hljs-property">ticker</span>.<span class="hljs-title function_">remove</span>(update);</code></pre></div><h2 id="b-i-t-p">Bài tập</h2><p>Tạo magnetic button: map pointer position trong button sang <code>x/y</code> giới hạn bằng <code>clamp</code>, cập nhật bằng <code>quickTo</code>, reset khi leave, tắt trên touch/reduced motion.</p>
+<p><strong>Tiêu chí đạt:</strong> không tạo tween trong mỗi <code>pointermove</code>; listener được remove; button vẫn click và focus bình thường.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/docs/v3/GSAP/UtilityMethods/">Utility Methods</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"14-gsap-utilities","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

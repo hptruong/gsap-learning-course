@@ -1,0 +1,58 @@
+{
+  "preserve": [
+    "GSAP", "ScrollTrigger", "ScrollSmoother", "SplitText", "SplitLines",
+    "ScrambleText", "ScrambleTextPlugin", "TextPlugin",
+    "DrawSVG", "MorphSVG", "MorphSVGPlugin", "MotionPath", "MotionPathPlugin",
+    "Flip", "FlipPlugin", "Draggable", "Inertia", "InertiaPlugin",
+    "Observer", "Physics2D", "Physics2DPlugin",
+    "CustomEase", "CustomWiggle", "CustomBounce", "EasePack",
+    "GSDevTools", "ScrollToPlugin",
+    "Timeline", "tween", "easing", "stagger", "scrub", "pin",
+    "gsap.to()", "gsap.from()", "gsap.fromTo()", "gsap.set()",
+    "gsap.timeline()", "gsap.matchMedia()", "gsap.registerPlugin()",
+    "gsap.context()", "gsap.ticker",
+    "power1", "power2", "power3", "power4",
+    "sine", "elastic", "bounce", "back", "circ", "expo", "rough", "slow",
+    "React", "Next.js", "Node.js", "TypeScript", "Vite", "Vue", "Svelte",
+    "JavaScript", "CSS", "HTML", "SVG", "WebGL", "Canvas",
+    "npm", "yarn", "pnpm", "npx", "CLI", "API", "REST", "GraphQL",
+    "GPU", "RAF", "requestAnimationFrame", "FLIP",
+    "CommonMark", "GFM", "Markdown",
+    "Awwwards", "Dribbble", "Behance",
+    "Framer Motion", "Three.js", "Figma",
+    "animation", "animations", "animate",
+    "parallax", "marquee", "morphing",
+    "hero", "CTA", "above-the-fold"
+  ],
+  "translations": {
+    "en": {
+      "giới thiệu": "Introduction",
+      "phương thức": "Methods",
+      "cơ bản": "Basic",
+      "nâng cao": "Advanced",
+      "thuật ngữ": "Terminology",
+      "lộ trình": "Roadmap",
+      "dự án": "Projects",
+      "thực tế": "Real-world",
+      "thực hành": "Practice",
+      "bài tập": "Exercises",
+      "tổng quan": "Overview",
+      "cài đặt": "Installation",
+      "thiết kế": "Design",
+      "mẫu": "Patterns"
+    },
+    "jp": {
+      "giới thiệu": "はじめに",
+      "cơ bản": "基本",
+      "nâng cao": "応用",
+      "animation": "アニメーション"
+    },
+    "de": {
+      "giới thiệu": "Einführung",
+      "cơ bản": "Grundlagen",
+      "nâng cao": "Fortgeschritten",
+      "animation": "Animation"
+    }
+  },
+  "dntNote": "These terms MUST stay in original form during translation. Do not translate them."
+}

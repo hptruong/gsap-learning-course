@@ -1,0 +1,99 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>08. GSAP Trong React | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="08-gsap-trong-react">08. GSAP Trong React</h1><blockquote>
+<p><strong>Mục tiêu:</strong> tạo animation React không leak, không match nhầm selector và không nhân đôi trong Strict Mode.</p>
+</blockquote>
+<p>GSAP là imperative, React là declarative. React render DOM theo state; GSAP chỉ animate DOM sau khi React đã render. <code>@gsap/react</code> cung cấp <code>useGSAP()</code> để tạo context và revert animation khi component unmount.</p>
+<h2 id="component-ho-n-ch-nh">Component hoàn chỉnh</h2><div class="code-block"><div class="code-block-header"><span><i></i>tsx</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useRef } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;
+<span class="hljs-keyword">import</span> gsap <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;gsap&quot;</span>;
+<span class="hljs-keyword">import</span> { useGSAP } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@gsap/react&quot;</span>;
+
+gsap.<span class="hljs-title function_">registerPlugin</span>(useGSAP);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">FeatureCard</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> root = useRef&lt;<span class="hljs-title class_">HTMLDivElement</span>&gt;(<span class="hljs-literal">null</span>);
+
+  <span class="hljs-title function_">useGSAP</span>(<span class="hljs-function">() =&gt;</span> {
+    gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.card&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">24</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.45</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span> });
+  }, { <span class="hljs-attr">scope</span>: root });
+
+  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{root}</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">article</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;card&quot;</span>&gt;</span>Nội dung<span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;
+}</code></pre></div><p><code>scope: root</code> giới hạn selector <code>.card</code> trong component. <code>useGSAP()</code> tự gọi <code>context.revert()</code> lúc unmount, gồm tween, ScrollTrigger, Draggable và SplitText được tạo trong callback.</p>
+<h2 id="state-v-dependency">State và dependency</h2><div class="code-block"><div class="code-block-header"><span><i></i>tsx</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-tsx"><span class="hljs-title function_">useGSAP</span>(<span class="hljs-function">() =&gt;</span> {
+  gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.card&quot;</span>, { <span class="hljs-attr">x</span>: endX, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.3</span> });
+}, { <span class="hljs-attr">scope</span>: root, <span class="hljs-attr">dependencies</span>: [endX], <span class="hljs-attr">revertOnUpdate</span>: <span class="hljs-literal">true</span> });</code></pre></div><p>Mặc định <code>revertOnUpdate</code> là <code>false</code>: animation chỉ được revert khi unmount. Khi dependency tạo lại GSAP objects, dùng <code>true</code> để không chồng animation và listener cũ.</p>
+<h2 id="interaction-sau-khi-hook-ch-y">Interaction sau khi hook chạy</h2><div class="code-block"><div class="code-block-header"><span><i></i>tsx</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-tsx"><span class="hljs-keyword">const</span> { contextSafe } = <span class="hljs-title function_">useGSAP</span>({ <span class="hljs-attr">scope</span>: root });
+<span class="hljs-keyword">const</span> onEnter = <span class="hljs-title function_">contextSafe</span>(<span class="hljs-function">() =&gt;</span> gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.card&quot;</span>, { <span class="hljs-attr">scale</span>: <span class="hljs-number">1.02</span> }));
+<span class="hljs-keyword">const</span> onLeave = <span class="hljs-title function_">contextSafe</span>(<span class="hljs-function">() =&gt;</span> gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.card&quot;</span>, { <span class="hljs-attr">scale</span>: <span class="hljs-number">1</span> }));
+
+<span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{root}</span> <span class="hljs-attr">onPointerEnter</span>=<span class="hljs-string">{onEnter}</span> <span class="hljs-attr">onPointerLeave</span>=<span class="hljs-string">{onLeave}</span>&gt;</span>Xem thêm<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>;</code></pre></div><p>Animation được tạo trong click, timeout hoặc event handler sau <code>useGSAP()</code> cần <code>contextSafe()</code>. Nếu tự thêm DOM event listener, return cleanup để remove đúng function đó.</p>
+<h2 id="next-js-v-ssr">Next.js và SSR</h2><p>Đặt <code>&quot;use client&quot;</code> ở đầu client component. Không gọi <code>gsap.to()</code> trong render; chỉ gọi trong <code>useGSAP()</code> hoặc event handler client. <code>useGSAP()</code> dùng isomorphic layout effect nên an toàn cho SSR khi dùng trong client component.</p>
+<h2 id="scrolltrigger-trong-component-typescript">ScrollTrigger trong component TypeScript</h2><p>Register plugin một lần ở module scope, nhưng chỉ <strong>tạo trigger</strong> bên trong <code>useGSAP()</code>. Scope giúp selector không match section của route khác; hook sẽ revert cả tween lẫn ScrollTrigger lúc unmount.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>tsx</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useRef } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;
+<span class="hljs-keyword">import</span> gsap <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;gsap&quot;</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">ScrollTrigger</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;gsap/ScrollTrigger&quot;</span>;
+<span class="hljs-keyword">import</span> { useGSAP } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@gsap/react&quot;</span>;
+
+gsap.<span class="hljs-title function_">registerPlugin</span>(<span class="hljs-title class_">ScrollTrigger</span>, useGSAP);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">FeatureReveal</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> root = useRef&lt;<span class="hljs-title class_">HTMLElement</span>&gt;(<span class="hljs-literal">null</span>);
+
+  <span class="hljs-title function_">useGSAP</span>(<span class="hljs-function">() =&gt;</span> {
+    gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.feature-card&quot;</span>, {
+      <span class="hljs-attr">y</span>: <span class="hljs-number">28</span>,
+      <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">duration</span>: <span class="hljs-number">0.5</span>,
+      <span class="hljs-attr">stagger</span>: <span class="hljs-number">0.08</span>,
+      <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span>,
+      <span class="hljs-attr">scrollTrigger</span>: {
+        <span class="hljs-attr">trigger</span>: <span class="hljs-string">&quot;.feature-grid&quot;</span>,
+        <span class="hljs-attr">start</span>: <span class="hljs-string">&quot;top 75%&quot;</span>,
+        <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span>,
+      },
+    });
+  }, { <span class="hljs-attr">scope</span>: root });
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{root}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;feature-grid&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">article</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;feature-card&quot;</span>&gt;</span>Nhanh<span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">article</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;feature-card&quot;</span>&gt;</span>Rõ<span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">article</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;feature-card&quot;</span>&gt;</span>Có cleanup<span class="hljs-tag">&lt;/<span class="hljs-name">article</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span></span>
+  );
+}</code></pre></div><p>Nếu layout đổi vì data, ảnh hoặc font tải xong, gọi <code>ScrollTrigger.refresh()</code> <strong>sau đúng thay đổi đó</strong>, không gọi trong render hay mọi scroll event. Với desktop-only pin/scrub, dùng <code>gsap.matchMedia()</code> trong callback; context của <code>useGSAP</code> vẫn quản lý cleanup.</p>
+<h2 id="accordion-react-gi-state-gsap-ch-di-n-t-state">Accordion: React giữ state, GSAP chỉ diễn đạt state đó</h2><p>Không để animation là nguồn sự thật của aria state. React state điều khiển <code>aria-expanded</code> và <code>hidden</code>; GSAP animate panel sau mỗi state change.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>tsx</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-tsx"><span class="hljs-keyword">import</span> { useRef, useState } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">FAQItem</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> root = useRef&lt;<span class="hljs-title class_">HTMLDivElement</span>&gt;(<span class="hljs-literal">null</span>);
+  <span class="hljs-keyword">const</span> panel = useRef&lt;<span class="hljs-title class_">HTMLDivElement</span>&gt;(<span class="hljs-literal">null</span>);
+  <span class="hljs-keyword">const</span> [open, setOpen] = <span class="hljs-title function_">useState</span>(<span class="hljs-literal">false</span>);
+
+  <span class="hljs-title function_">useGSAP</span>(<span class="hljs-function">() =&gt;</span> {
+    gsap.<span class="hljs-title function_">to</span>(panel.<span class="hljs-property">current</span>, {
+      <span class="hljs-attr">height</span>: open ? <span class="hljs-string">&quot;auto&quot;</span> : <span class="hljs-number">0</span>,
+      <span class="hljs-attr">autoAlpha</span>: open ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>,
+      <span class="hljs-attr">duration</span>: <span class="hljs-number">0.25</span>,
+      <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span>,
+      <span class="hljs-attr">overwrite</span>: <span class="hljs-string">&quot;auto&quot;</span>,
+    });
+  }, { <span class="hljs-attr">scope</span>: root, <span class="hljs-attr">dependencies</span>: [open] });
+
+  <span class="hljs-keyword">return</span> (
+    <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{root}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">aria-expanded</span>=<span class="hljs-string">{open}</span> <span class="hljs-attr">aria-controls</span>=<span class="hljs-string">&quot;answer&quot;</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setOpen((value) =&gt; !value)}&gt;
+        GSAP cleanup là gì?
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;answer&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">{panel}</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">{!open}</span>&gt;</span>
+        Animation và trigger được revert khi component unmount.
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}</code></pre></div><p><code>height</code> là một layout property, nhưng ở disclosure component chính layout mở/đóng là kết quả mong muốn; đừng thay nó bằng <code>scaleY</code> vì scale làm text méo và không thay layout. Dùng <code>overwrite: &quot;auto&quot;</code> để click nhanh không để tween cũ tranh cùng property. Nếu panel chứa control focus được, quản lý focus và <code>inert</code>/<code>hidden</code> theo state thay vì chỉ dựa vào opacity.</p>
+<h2 id="b-i-t-p">Bài tập</h2><p>Tạo accordion React: state quyết định <code>aria-expanded</code>, GSAP animate panel, click liên tục không tạo animation trùng. Sau đó thêm ScrollTrigger vào component và mount/unmount nhiều lần.</p>
+<p><strong>Tiêu chí đạt:</strong> không có selector ảnh hưởng component khác; Strict Mode không nhân đôi animation; không còn inline style cũ sau unmount.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/resources/React/">Official React guide</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"08-react","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

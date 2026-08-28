@@ -1,0 +1,145 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>11. Motion cho Landing Page: Từ Brief Đến QA | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="11-motion-cho-landing-page-t-brief-n-qa">11. Motion cho Landing Page: Từ Brief Đến QA</h1><blockquote>
+<p><strong>Mục tiêu:</strong> thiết kế một landing page static-first, rồi thêm motion để làm rõ hierarchy, feedback và orientation mà không làm chậm LCP, phá focus hoặc ép người dùng xem intro.</p>
+</blockquote>
+<p>Landing page không mặc định cần preloader, smooth scroll, cursor follower hay pinned story. Motion tốt trả lời được một trong ba câu: <strong>điều gì quan trọng trước</strong>, <strong>state vừa đổi là gì</strong>, hoặc <strong>nội dung này liên quan nhau thế nào</strong>. Nếu không trả lời được, CSS hover hoặc không motion thường tốt hơn.</p>
+<h2 id="motion-inventory-tr-c-khi-vi-t-gsap">Motion inventory trước khi viết GSAP</h2><p>Lập inventory cho từng element. Đây là công cụ tránh “effect creep”.</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Mục đích</th>
+<th>Trigger</th>
+<th>Static / reduced-motion fallback</th>
+<th>Không làm gì</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hero copy</td>
+<td>Đưa mắt theo hierarchy</td>
+<td>first paint</td>
+<td>Content đã visible; có thể fade ngắn</td>
+<td>Không stagger 1.5 giây.</td>
+</tr>
+<tr>
+<td>Primary CTA</td>
+<td>Xác nhận hover/focus</td>
+<td>pointer / keyboard</td>
+<td>Native CSS focus + hover</td>
+<td>Không magnetic trên mọi device.</td>
+</tr>
+<tr>
+<td>Product visual</td>
+<td>Giải thích feature</td>
+<td>section enter</td>
+<td>Static image/caption</td>
+<td>Không chặn LCP bằng preloader.</td>
+</tr>
+<tr>
+<td>Feature cards</td>
+<td>Nhóm hóa danh sách</td>
+<td>viewport enter</td>
+<td>Hiển thị sẵn</td>
+<td>Không hide khi JS fail.</td>
+</tr>
+<tr>
+<td>Story diagram</td>
+<td>Diễn giải một sequence</td>
+<td>optional desktop scroll</td>
+<td>Flow dọc</td>
+<td>Không horizontal scroll trên mobile.</td>
+</tr>
+</tbody></table>
+<p>Chỉ code hàng có mục đích và fallback rõ. Một section có thể hoàn toàn tĩnh.</p>
+<h2 id="hero-static-first-sau-m-i-timeline">Hero static-first, sau đó mới timeline</h2><p>HTML/CSS phải readable trước. Nếu muốn tránh FOUC, chỉ CSS ẩn element khi JavaScript đã chủ động thêm class <code>js</code> vào <code>&lt;html&gt;</code>; không để plain HTML bị <code>visibility: hidden</code>.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>html</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hero&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hero__eyebrow&quot;</span>&gt;</span>New release<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hero__title&quot;</span>&gt;</span>Move with clarity.<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hero__body&quot;</span>&gt;</span>A product sentence that stays readable without JavaScript.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;hero__cta&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;#pricing&quot;</span>&gt;</span>See pricing<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span></code></pre></div><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> mm = gsap.<span class="hljs-title function_">matchMedia</span>();
+
+mm.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;(prefers-reduced-motion: no-preference)&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-keyword">const</span> intro = gsap.<span class="hljs-title function_">timeline</span>({
+    <span class="hljs-attr">defaults</span>: { <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power3.out&quot;</span> },
+  });
+
+  intro
+    .<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.hero__eyebrow&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">12</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.28</span> })
+    .<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.hero__title&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">22</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.5</span> }, <span class="hljs-string">&quot;&lt;0.08&quot;</span>)
+    .<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.hero__body, .hero__cta&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">12</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.32</span>, <span class="hljs-attr">stagger</span>: <span class="hljs-number">0.06</span> }, <span class="hljs-string">&quot;&lt;0.16&quot;</span>);
+});</code></pre></div><p>Timeline thể hiện hierarchy: eyebrow trước, title là primary moment, supporting copy/CTA sau. Không chain <code>delay</code>; không autoplay lại khi người dùng quay về page; không animate layout property chỉ để đưa content vào.</p>
+<h2 id="feature-reveal-gi-p-scan-kh-ng-tr-ho-n-scan">Feature reveal: giúp scan, không trì hoãn scan</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> mm = gsap.<span class="hljs-title function_">matchMedia</span>();
+
+mm.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;(prefers-reduced-motion: no-preference)&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+  gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.feature-card&quot;</span>, {
+    <span class="hljs-attr">y</span>: <span class="hljs-number">20</span>,
+    <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-number">0.4</span>,
+    <span class="hljs-attr">stagger</span>: { <span class="hljs-attr">each</span>: <span class="hljs-number">0.07</span>, <span class="hljs-attr">from</span>: <span class="hljs-string">&quot;start&quot;</span> },
+    <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span>,
+    <span class="hljs-attr">scrollTrigger</span>: {
+      <span class="hljs-attr">trigger</span>: <span class="hljs-string">&quot;.feature-grid&quot;</span>,
+      <span class="hljs-attr">start</span>: <span class="hljs-string">&quot;top 78%&quot;</span>,
+      <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span>,
+    },
+  });
+});</code></pre></div><p>Ở reduced motion, không tạo tween; card vẫn visible do HTML/CSS. Với list dài, chỉ animate item cần thiết/đang vào viewport, không tạo hàng trăm trigger. Khi visual quan trọng là ảnh responsive, chờ <code>load</code> hoặc <code>document.fonts.ready</code> rồi refresh đúng lúc nếu layout đã đổi.</p>
+<h2 id="cta-interactive-state-ph-i-t-n-t-i-kh-ng-c-n-gsap">CTA: interactive state phải tồn tại không cần GSAP</h2><div class="code-block"><div class="code-block-header"><span><i></i>css</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-css"><span class="hljs-selector-class">.hero__cta</span> {
+  <span class="hljs-attribute">display</span>: inline-flex;
+  <span class="hljs-attribute">padding</span>: .<span class="hljs-number">8rem</span> <span class="hljs-number">1rem</span>;
+  <span class="hljs-attribute">border-radius</span>: .<span class="hljs-number">5rem</span>;
+  <span class="hljs-attribute">background</span>: <span class="hljs-number">#111827</span>;
+  <span class="hljs-attribute">color</span>: white;
+  <span class="hljs-attribute">transition</span>: background-color .<span class="hljs-number">15s</span> ease;
+}
+<span class="hljs-selector-class">.hero__cta</span><span class="hljs-selector-pseudo">:hover</span> { <span class="hljs-attribute">background</span>: <span class="hljs-number">#374151</span>; }
+<span class="hljs-selector-class">.hero__cta</span><span class="hljs-selector-pseudo">:focus-visible</span> { <span class="hljs-attribute">outline</span>: <span class="hljs-number">3px</span> solid <span class="hljs-number">#60a5fa</span>; <span class="hljs-attribute">outline-offset</span>: <span class="hljs-number">3px</span>; }</code></pre></div><p>GSAP có thể thêm feedback nhỏ, nhưng không thay CSS state hoặc browser focus:</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> cta = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;.hero__cta&quot;</span>);
+cta.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;pointerenter&quot;</span>, <span class="hljs-function">() =&gt;</span> gsap.<span class="hljs-title function_">to</span>(cta, { <span class="hljs-attr">y</span>: -<span class="hljs-number">2</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.18</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span> }));
+cta.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;pointerleave&quot;</span>, <span class="hljs-function">() =&gt;</span> gsap.<span class="hljs-title function_">to</span>(cta, { <span class="hljs-attr">y</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.18</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span> }));</code></pre></div><p>Nếu dùng listener trong SPA, cleanup khi unmount. Với touch, hover không phải primary interaction; CTA vẫn phải rõ bằng layout và label.</p>
+<h2 id="performance-o-ng-th-c-n-o">Performance: đo đúng thứ cần đo</h2><table>
+<thead>
+<tr>
+<th>Metric / test</th>
+<th>Motion có thể làm hỏng thế nào</th>
+<th>Cách kiểm tra</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LCP</td>
+<td>Preloader, font/ảnh chờ animation, hero hidden.</td>
+<td>Chrome Performance + throttled network; hero vẫn hiện trước animation.</td>
+</tr>
+<tr>
+<td>CLS</td>
+<td>Animate hoặc inject layout, font swap sau trigger đo vị trí.</td>
+<td>Performance/Experience panel; reserve image size.</td>
+</tr>
+<tr>
+<td>INP</td>
+<td>Pointer event tạo tween mới liên tục, heavy filter/blur.</td>
+<td>Interaction trong Performance; dùng <code>quickTo()</code> cho high-frequency input.</td>
+</tr>
+<tr>
+<td>Mobile GPU</td>
+<td>Pin dài, clip-path/filter lớn, quá nhiều layer.</td>
+<td>Máy thật, battery saver, reduced motion.</td>
+</tr>
+</tbody></table>
+<p>Không tuyên bố “60fps” chỉ từ việc dùng transform. Profile thiết bị thấp và giảm bớt motion trước khi thêm <code>will-change</code>; chỉ set <code>will-change</code> cho element sắp animate và clear sau đó nếu cần.</p>
+<h2 id="qa-release-checklist">QA release checklist</h2><ol>
+<li>JavaScript tắt / script load lỗi: hero, CTA, pricing và feature vẫn đọc/click được.</li>
+<li>375px + touch: không pin/horizontal scroll bắt buộc; focus không bị che bởi fixed UI.</li>
+<li>Keyboard: thứ tự Tab theo DOM, <code>:focus-visible</code> rõ, không có animation chặn input.</li>
+<li><code>prefers-reduced-motion</code>: content không enter từ xa, scrub/pin decorative bị bỏ.</li>
+<li>Resize, web font, ảnh chậm: ScrollTrigger không tính sai; không refresh trong scroll.</li>
+<li>Production: không markers, không console error, listener/ticker/context được cleanup.</li>
+</ol>
+<h2 id="b-i-t-p">Bài tập</h2><p>Chọn landing page thật hoặc mock. Tạo static layout gồm hero, 3 feature và CTA. Viết motion inventory, sau đó chỉ implement <strong>hai</strong> hàng: hero timeline và feature reveal. Record evidence cho JS-off, 375px, keyboard, reduced motion và Performance trace.</p>
+<p><strong>Tiêu chí đạt:</strong> bạn giải thích được mục đích của từng tween; LCP content không bị giữ bởi animation; mobile không bị ép vào desktop effect; và page usable khi GSAP không load.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/resources/a11y/">GSAP accessibility</a></li>
+<li><a href="https://gsap.com/resources/">GSAP performance best practices</a></li>
+<li><a href="https://web.dev/articles/vitals">Web Vitals</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"11-landing-page","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

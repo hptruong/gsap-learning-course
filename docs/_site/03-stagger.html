@@ -1,0 +1,57 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>03. Stagger và Phân Phối Animation | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="03-stagger-v-ph-n-ph-i-animation">03. Stagger và Phân Phối Animation</h1><blockquote>
+<p><strong>Mục tiêu:</strong> animate list và grid bằng một tween, giữ thứ tự đọc và có phương án reduced motion.</p>
+</blockquote>
+<p>Stagger tạo độ lệch thời gian giữa các target. Thay vì tạo mười tween có <code>delay</code>, tạo một tween với mười target. Code ngắn hơn, cleanup đơn giản hơn và timing nhất quán hơn.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>html</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;list&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;item&quot;</span>&gt;</span>Tween<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;item&quot;</span>&gt;</span>Ease<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;item&quot;</span>&gt;</span>Timeline<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre></div><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.item&quot;</span>, {
+  <span class="hljs-attr">y</span>: <span class="hljs-number">16</span>,
+  <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">0.35</span>,
+  <span class="hljs-attr">stagger</span>: <span class="hljs-number">0.08</span>,
+  <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span>,
+});</code></pre></div><p><code>stagger: 0.08</code> nghĩa là target kế tiếp bắt đầu sau target trước 0.08 giây. Dùng <code>each</code> khi muốn nói rõ điều này; dùng <code>amount</code> khi muốn toàn bộ nhóm trải trong một khoảng thời gian cố định.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.card&quot;</span>, {
+  <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">scale</span>: <span class="hljs-number">0.96</span>,
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">0.4</span>,
+  <span class="hljs-attr">stagger</span>: { <span class="hljs-attr">amount</span>: <span class="hljs-number">0.5</span>, <span class="hljs-attr">from</span>: <span class="hljs-string">&quot;center&quot;</span>, <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.inOut&quot;</span> },
+});</code></pre></div><h2 id="c-c-option-quan-tr-ng">Các option quan trọng</h2><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Ý nghĩa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>each</code></td>
+<td>Khoảng cách giữa thời điểm bắt đầu của hai target.</td>
+</tr>
+<tr>
+<td><code>amount</code></td>
+<td>Tổng thời gian phân phối của cả nhóm.</td>
+</tr>
+<tr>
+<td><code>from</code></td>
+<td><code>&quot;start&quot;</code>, <code>&quot;end&quot;</code>, <code>&quot;center&quot;</code>, <code>&quot;edges&quot;</code>, <code>&quot;random&quot;</code> hoặc index.</td>
+</tr>
+<tr>
+<td><code>grid</code></td>
+<td>Kích thước grid, hoặc <code>&quot;auto&quot;</code> để GSAP suy ra khi tạo tween.</td>
+</tr>
+<tr>
+<td><code>ease</code> trong stagger</td>
+<td>Phân phối start time, không thay tween ease.</td>
+</tr>
+</tbody></table>
+<p><code>grid: &quot;auto&quot;</code> được tính khi tween tạo ra, không tự tính lại theo resize. Khi grid đổi layout, tạo lại animation bằng <code>gsap.matchMedia()</code> hoặc refresh luồng của component.</p>
+<h2 id="ng-l-m-content-kh-c">Đừng làm content khó đọc</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> mm = gsap.<span class="hljs-title function_">matchMedia</span>();
+mm.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;(prefers-reduced-motion: no-preference)&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+  gsap.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.card&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">20</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">stagger</span>: <span class="hljs-number">0.08</span> });
+});</code></pre></div><p>Với reduced motion, để content hiển thị sẵn trong HTML/CSS. Không dùng stagger dài cho item mà người dùng cần thao tác ngay.</p>
+<h2 id="b-i-t-p">Bài tập</h2><p>Tạo grid 3 x 3 có animation đi từ tâm ra ngoài. Sau đó chuyển <code>from</code> sang <code>&quot;edges&quot;</code>, ghi lại khác biệt, rồi tạo phiên bản reduced motion không có transform.</p>
+<p><strong>Tiêu chí đạt:</strong> không có item bị ẩn nếu JavaScript lỗi; layout mobile không dùng grid stagger desktop; tổng thời gian reveal không làm chậm nội dung chính.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/resources/getting-started/Staggers">GSAP Staggers</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"03-stagger","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

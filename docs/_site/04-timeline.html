@@ -1,0 +1,64 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>04. Timeline, Labels và Điều Khiển | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="04-timeline-labels-v-i-u-khi-n">04. Timeline, Labels và Điều Khiển</h1><blockquote>
+<p><strong>Mục tiêu:</strong> tạo choreography nhiều bước không phụ thuộc vào chuỗi <code>delay</code>.</p>
+</blockquote>
+<p>Timeline là container chứa tween. Mỗi tween được thêm nối tiếp mặc định; position parameter quyết định tween bắt đầu ở đâu. Đây là công cụ chính cho hero, menu, modal, page transition và bất cứ flow nhiều bước nào.</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> intro = gsap.<span class="hljs-title function_">timeline</span>({
+  <span class="hljs-attr">paused</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">defaults</span>: { <span class="hljs-attr">ease</span>: <span class="hljs-string">&quot;power2.out&quot;</span> },
+});
+
+intro
+  .<span class="hljs-title function_">addLabel</span>(<span class="hljs-string">&quot;enter&quot;</span>)
+  .<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.eyebrow&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">12</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.25</span> }, <span class="hljs-string">&quot;enter&quot;</span>)
+  .<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.title&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">28</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.5</span> }, <span class="hljs-string">&quot;&lt;0.08&quot;</span>)
+  .<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.action&quot;</span>, { <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">scale</span>: <span class="hljs-number">0.96</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.25</span> }, <span class="hljs-string">&quot;&gt;-0.1&quot;</span>);
+
+intro.<span class="hljs-title function_">play</span>();</code></pre></div><h2 id="position-parameter">Position parameter</h2><table>
+<thead>
+<tr>
+<th>Giá trị</th>
+<th>Nghĩa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code></td>
+<td>Bắt đầu ở giây thứ 0.</td>
+</tr>
+<tr>
+<td><code>&quot;+=0.2&quot;</code></td>
+<td>0.2 giây sau animation trước kết thúc.</td>
+</tr>
+<tr>
+<td><code>&quot;-=0.2&quot;</code></td>
+<td>0.2 giây trước animation trước kết thúc.</td>
+</tr>
+<tr>
+<td><code>&quot;&lt;&quot;</code>, <code>&quot;&gt;&quot;</code></td>
+<td>Cùng thời điểm bắt đầu, hoặc kết thúc của animation vừa thêm.</td>
+</tr>
+<tr>
+<td><code>&quot;label&quot;</code>, <code>&quot;label+=0.2&quot;</code></td>
+<td>Theo label đã đặt tên.</td>
+</tr>
+</tbody></table>
+<p>Label làm code đọc như kịch bản. Đừng dùng số giây “ma thuật” ở nhiều nơi nếu chúng mô tả cùng một cảnh.</p>
+<h2 id="i-u-khi-n-tween-v-timeline">Điều khiển tween và timeline</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js">playButton.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> intro.<span class="hljs-title function_">play</span>());
+pauseButton.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> intro.<span class="hljs-title function_">pause</span>());
+reverseButton.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> intro.<span class="hljs-title function_">reverse</span>());
+restartButton.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> intro.<span class="hljs-title function_">restart</span>());</code></pre></div><p>Tween và timeline đều trả về animation instance, nên có <code>progress()</code>, <code>time()</code>, <code>timeScale()</code>, <code>kill()</code> và callback như <code>onComplete</code>. Lưu instance khi UI cần điều khiển; không query/tạo lại timeline ở mỗi click.</p>
+<h2 id="v-d-menu-m-v-ng">Ví dụ: menu mở và đóng</h2><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">const</span> menu = gsap.<span class="hljs-title function_">timeline</span>({ <span class="hljs-attr">paused</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">reversed</span>: <span class="hljs-literal">true</span> });
+menu
+  .<span class="hljs-title function_">set</span>(<span class="hljs-string">&quot;.menu&quot;</span>, { <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">1</span> })
+  .<span class="hljs-title function_">fromTo</span>(<span class="hljs-string">&quot;.menu&quot;</span>, { <span class="hljs-attr">yPercent</span>: -<span class="hljs-number">100</span> }, { <span class="hljs-attr">yPercent</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">0.35</span> })
+  .<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;.menu a&quot;</span>, { <span class="hljs-attr">y</span>: <span class="hljs-number">12</span>, <span class="hljs-attr">autoAlpha</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">stagger</span>: <span class="hljs-number">0.05</span> }, <span class="hljs-string">&quot;&lt;0.1&quot;</span>);
+
+toggle.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+  menu.<span class="hljs-title function_">reversed</span>() ? menu.<span class="hljs-title function_">play</span>() : menu.<span class="hljs-title function_">reverse</span>();
+});</code></pre></div><p>GSAP chỉ animate hình ảnh. Bạn vẫn phải cập nhật <code>aria-expanded</code>, quản lý focus và cho phép phím Escape đóng menu.</p>
+<h2 id="b-i-t-p">Bài tập</h2><p>Tạo modal có open và close bằng cùng một timeline. Thử click nhanh năm lần.</p>
+<p><strong>Tiêu chí đạt:</strong> animation không nhảy state, backdrop không nhận click khi modal đóng, <code>aria-expanded</code> và focus khớp state thực.</p>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/docs/v3/GSAP/Timeline">Timeline API</a></li>
+<li><a href="https://gsap.com/resources/position-parameter">Position parameter</a></li>
+</ul>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"04-timeline","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

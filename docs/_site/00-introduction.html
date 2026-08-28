@@ -1,0 +1,77 @@
+<!doctype html><html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>00. Bắt Đầu Với GSAP | GSAP Learning</title><meta name="description" content="A hands-on, bilingual GSAP course from first tween to production motion."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="/theme.css"></head><body><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-brand"><a class="sidebar-logo" href="/index.html"><span class="logo-mark"><i></i><i></i><i></i></span><span>GSAP <span>Studio</span></span></a><button class="sidebar-close" type="button" data-action="menu" aria-label="Close navigation">×</button></div><div class="course-progress" data-course-progress></div><nav class="sidebar-nav" id="sidebar-nav" aria-label="Course navigation"></nav><div class="sidebar-footer"><a href="/roadmap.html">✦ Learning roadmap</a><a href="/glossary.html">◌ GSAP glossary</a></div></aside><div class="main-wrapper"><header class="header"><div class="header-left"><button class="mobile-menu-btn" type="button" data-action="menu" aria-label="Open navigation"><i class="fas fa-bars"></i></button><a class="header-home" href="/index.html">GSAP Learning Path</a></div><div class="header-center"><button class="search-trigger" type="button" data-action="search"><i class="fas fa-search"></i><span data-i18n="nav.searchPlaceholder"></span><kbd>⌘ K</kbd></button></div><div class="header-right"><a href="https://gsap.com/docs/v3/" target="_blank" rel="noreferrer" class="docs-link" data-i18n="nav.gsapDocs"></a><button class="lang-toggle" type="button" data-action="language" id="lang-toggle" aria-label="Switch language"></button><button class="theme-toggle" type="button" data-action="theme" aria-label="Toggle theme"><i class="fas fa-sun"></i></button></div></header><main class="content lesson-content" id="page-content"><h1 id="00-b-t-u-v-i-gsap">00. Bắt Đầu Với GSAP</h1><blockquote>
+<p><strong>Mục tiêu:</strong> sau bài này, bạn cài được GSAP, hiểu tween là gì, và tự chạy được animation đầu tiên từ một file HTML trống.</p>
+</blockquote>
+<h2 id="gsap-gi-i-quy-t-v-n-g">GSAP giải quyết vấn đề gì?</h2><p>CSS transition phù hợp khi một element chỉ đổi giữa hai state đơn giản, ví dụ hover đổi màu. GSAP phù hợp khi cần điều khiển animation bằng JavaScript: chạy một chuỗi nhiều bước, đảo chiều, tạm dừng, đồng bộ với scroll, animate SVG hoặc tính giá trị động.</p>
+<p>GSAP không phụ thuộc React, Vue hay bất kỳ framework nào. Hãy học bằng HTML/CSS/JavaScript thuần trước; kiến thức đó chuyển sang framework nguyên vẹn.</p>
+<h2 id="i-u-ki-n-u-v-o">Điều kiện đầu vào</h2><ul>
+<li>Biết tạo HTML element, class và CSS selector.</li>
+<li>Biết JavaScript cơ bản: biến, function và event listener.</li>
+<li>Biết <code>transform</code> và <code>opacity</code> trong CSS là lợi thế, nhưng bài 01 sẽ giải thích lại phần cần thiết.</li>
+</ul>
+<h2 id="c-i-t">Cài đặt</h2><h3 id="c-ch-1-cdn-t-t-nh-t-h-c-nhanh">Cách 1: CDN, tốt nhất để học nhanh</h3><p>Tạo file <code>index.html</code>, dán toàn bộ ví dụ dưới đây rồi mở bằng trình duyệt:</p>
+<div class="code-block"><div class="code-block-header"><span><i></i>html</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-html"><span class="hljs-meta">&lt;!doctype <span class="hljs-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;vi&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>GSAP đầu tiên<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="language-css">
+      <span class="hljs-selector-tag">body</span> { <span class="hljs-attribute">min-height</span>: <span class="hljs-number">100vh</span>; <span class="hljs-attribute">display</span>: grid; <span class="hljs-attribute">place-items</span>: center; <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>; }
+      <span class="hljs-selector-class">.box</span> { <span class="hljs-attribute">width</span>: <span class="hljs-number">100px</span>; <span class="hljs-attribute">height</span>: <span class="hljs-number">100px</span>; <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">16px</span>; <span class="hljs-attribute">background</span>: <span class="hljs-number">#2563eb</span>; }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;box&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript">
+      gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.box&quot;</span>, { <span class="hljs-attr">x</span>: <span class="hljs-number">160</span>, <span class="hljs-attr">rotation</span>: <span class="hljs-number">180</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">1</span> });
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre></div><p>Kết quả mong đợi: khi load trang, ô xanh dịch sang phải 160px và xoay 180 độ trong một giây.</p>
+<h3 id="c-ch-2-npm-cho-d-n-th-t">Cách 2: npm, cho dự án thật</h3><div class="code-block"><div class="code-block-header"><span><i></i>bash</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-bash">npm install gsap</code></pre></div><div class="code-block"><div class="code-block-header"><span><i></i>js</span><button class="copy-btn" type="button" data-copy-code data-copied-label="Copied" data-copy-failed-label="Copy failed">Copy</button></div><pre><code class="hljs language-js"><span class="hljs-keyword">import</span> gsap <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;gsap&quot;</span>;
+
+gsap.<span class="hljs-title function_">to</span>(<span class="hljs-string">&quot;.box&quot;</span>, { <span class="hljs-attr">x</span>: <span class="hljs-number">160</span>, <span class="hljs-attr">duration</span>: <span class="hljs-number">1</span> });</code></pre></div><p>Chỉ cài <code>@gsap/react</code> khi đi đến bài React. Các plugin đều nằm trong package <code>gsap</code>, nhưng cần import và register trước khi dùng.</p>
+<h2 id="t-v-ng-u-ti-n">Từ vựng đầu tiên</h2><table>
+<thead>
+<tr>
+<th>Từ</th>
+<th>Nghĩa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Target</strong></td>
+<td>Element hoặc object được animate, ví dụ <code>&quot;.box&quot;</code>.</td>
+</tr>
+<tr>
+<td><strong>Tween</strong></td>
+<td>Một animation thay đổi giá trị theo thời gian. <code>gsap.to()</code> trả về một tween.</td>
+</tr>
+<tr>
+<td><strong>Vars</strong></td>
+<td>Object cấu hình tween: property, duration, ease, callback.</td>
+</tr>
+<tr>
+<td><strong>Timeline</strong></td>
+<td>Container sắp xếp nhiều tween thành một choreography.</td>
+</tr>
+<tr>
+<td><strong>Plugin</strong></td>
+<td>Khả năng bổ sung như ScrollTrigger hoặc SplitText.</td>
+</tr>
+</tbody></table>
+<h2 id="c-ch-h-c-kh-a-n-y">Cách học khóa này</h2><ol>
+<li>Chạy ví dụ trước khi sửa bất cứ thứ gì.</li>
+<li>Chỉ thay đổi một property mỗi lần và đoán kết quả trước khi refresh.</li>
+<li>Hoàn thành checkpoint từ file trống, không copy toàn bộ đáp án.</li>
+<li>Khi API trong course và API mới khác nhau, ưu tiên <a href="https://gsap.com/docs/v3/">GSAP Docs</a>.</li>
+</ol>
+<h2 id="checkpoint">Checkpoint</h2><ul>
+<li>Đổi <code>x</code> thành <code>y</code>, sau đó đổi <code>rotation</code> thành <code>scale: 1.5</code>.</li>
+<li>Lưu tween vào biến: <code>const move = gsap.to(...)</code>.</li>
+<li>Mở DevTools Console, bảo đảm không có lỗi <code>gsap is not defined</code>.</li>
+</ul>
+<h2 id="c-th-m">Đọc thêm</h2><ul>
+<li><a href="https://gsap.com/docs/v3/Installation">Official installation guide</a></li>
+<li><a href="https://gsap.com/resources/get-started">Your first animation</a></li>
+</ul>
+<p><em>Tiếp theo: <a href="./01-basics.md">01. Tween cơ bản</a></em></p>
+</main><aside id="page-toc"></aside></div></div><div class="search-overlay" id="searchOverlay"><section class="search-modal" role="dialog" aria-modal="true" aria-label="Search"><div class="search-input-wrapper"><i class="fas fa-search"></i><input class="search-input" type="search" id="searchInput" autocomplete="off" data-i18n-placeholder="nav.searchPlaceholder"><kbd>ESC</kbd></div><div class="search-results" id="searchResults"></div></section></div><script>window.__DOCS__={"pageId":"00-introduction","manifest":{"defaultLanguage":"vi","languages":[{"code":"vi","fallback":["vi"],"toggleLabel":"EN","required":true},{"code":"en","fallback":["en","vi"],"toggleLabel":"VI","required":true}],"sections":[{"id":"start","order":0},{"id":"core","order":1},{"id":"scroll","order":2},{"id":"specialized","order":3},{"id":"frameworks","order":4},{"id":"production","order":5},{"id":"reference","order":6}],"pages":[{"id":"00-introduction","order":0,"section":"start"},{"id":"01-basics","order":1,"section":"core"},{"id":"02-easing","order":2,"section":"core"},{"id":"03-stagger","order":3,"section":"core"},{"id":"04-timeline","order":4,"section":"core"},{"id":"05-scroll-trigger","order":5,"section":"scroll"},{"id":"06-text","order":6,"section":"specialized"},{"id":"07-svg","order":7,"section":"specialized"},{"id":"08-react","order":8,"section":"frameworks"},{"id":"09-advanced","order":9,"section":"production"},{"id":"10-projects","order":10,"section":"production"},{"id":"11-landing-page","order":11,"section":"production"},{"id":"12-awwwards-patterns","order":12,"section":"production"},{"id":"13-visual-design","order":13,"section":"production"},{"id":"14-gsap-utilities","order":14,"section":"reference"},{"id":"15-common-patterns","order":15,"section":"reference"},{"id":"glossary","order":98,"section":"reference"},{"id":"roadmap","order":99,"section":"reference"}]}};</script><script src="/app.js"></script></body></html>

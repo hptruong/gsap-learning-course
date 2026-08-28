@@ -101,9 +101,16 @@ cd gsap-learning-course
 # Cài dependencies
 pnpm install
 
-# Dev server (HMR)
+# React animation playground (HMR)
 pnpm dev
-# → http://localhost:5173
+# → http://localhost:3000
+
+# Learning docs UI (builds docs/_site, then serves the course)
+pnpm docs:dev
+# → http://127.0.0.1:4173
+
+# Verify + generate docs only
+pnpm docs:check && pnpm docs:build
 
 # Build production
 pnpm build
@@ -119,7 +126,7 @@ pnpm lint
 
 ```
 gsap-learning-course/
-├── docs/                 # 18 files giáo trình (đọc theo ROADMAP.md)
+├── docs/                 # Nguồn + static learning UI (chạy: pnpm docs:dev)
 │   ├── ROADMAP.md        # Lộ trình 10 phases
 │   ├── GLOSSARY.md       # 96 thuật ngữ
 │   ├── 00-GIOI-THIEU.md  # ...

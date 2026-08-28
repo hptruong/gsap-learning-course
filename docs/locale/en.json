@@ -1,0 +1,27 @@
+{
+  "nav": { "searchPlaceholder": "Search lessons...", "searchNoResults": "No lessons match your search.", "gsapDocs": "Official GSAP docs", "previous": "Previous lesson", "next": "Next lesson", "lessonNavigation": "Lesson navigation" },
+  "learning": { "courseName": "GSAP learning path", "yourProgress": "Your progress", "complete": "complete", "done": "Done", "inProgress": "In progress", "lesson": "Lesson", "minutes": "min", "outcome": "By the end, you can", "markComplete": "Mark as complete", "completed": "Completed", "practiceHint": "Finish the checkpoint before moving on.", "lessons": "lessons", "tracksLabel": "tracks", "levels": "beginner → advanced", "curriculumLabel": "The practical path", "curriculumDescription": "Do not read APIs in alphabetical order. Every phase ends with something you can build from a blank file before you move on.", "tracks": { "foundation": { "label": "Phase 01", "title": "Motion foundations", "description": "Learn GSAP grammar and build the first dependable interactions." }, "interaction": { "label": "Phase 02", "title": "Flow & interaction", "description": "Connect motion to scroll, SVG, text and component lifecycles." }, "advanced": { "label": "Phase 03", "title": "Design to ship", "description": "Turn techniques into motion systems that survive real products." } } },
+  "hero": { "badge": "Hands-on course · Beginner → Advanced", "description": "Learn GSAP by building, testing and checking your work. Every lesson is a motion skill you can use, not an API page to skim.", "startLearning": "Start lesson 01", "roadmap": "View the roadmap" },
+  "toc": { "courseContent": "Course library" },
+  "sections": { "start": "Getting started", "core": "Core animation", "scroll": "Scroll animation", "specialized": "Text and SVG", "frameworks": "Framework integration", "production": "Production and practice", "reference": "Reference" },
+  "pages": {
+    "00-introduction": { "navTitle": "00. Introduction", "description": "What GSAP is and how to install it", "keywords": "install setup npm cdn target plugin" },
+    "01-basics": { "navTitle": "01. Tween basics", "description": "to, from, fromTo, set and transform properties", "keywords": "tween gsap to from fromTo set transforms autoAlpha fouc" },
+    "02-easing": { "navTitle": "02. Easing", "description": "Timing curves and motion feel", "keywords": "ease power bounce elastic custom ease" },
+    "03-stagger": { "navTitle": "03. Stagger", "description": "Offset groups of animations", "keywords": "stagger grid distribute list" },
+    "04-timeline": { "navTitle": "04. Timelines", "description": "Sequence, position and control animations", "keywords": "timeline labels position callbacks play pause reverse" },
+    "05-scroll-trigger": { "navTitle": "05. ScrollTrigger", "description": "Viewport triggers, scrub, pin and responsive scroll", "keywords": "scroll trigger scrub pin refresh matchMedia" },
+    "06-text": { "navTitle": "06. Text", "description": "Accessible SplitText and text effects", "keywords": "splittext scrambletext text accessibility aria" },
+    "07-svg": { "navTitle": "07. SVG", "description": "SVG transforms, stroke drawing and paths", "keywords": "svg drawsvg morphsvg motionpath stroke" },
+    "08-react": { "navTitle": "08. React", "description": "useGSAP, cleanup and SSR-safe integration", "keywords": "react usegsap context cleanup ssr next" },
+    "09-advanced": { "navTitle": "09. Production techniques", "description": "Performance, accessibility and advanced plugins", "keywords": "performance accessibility flip draggable observer lenis" },
+    "10-projects": { "navTitle": "10. Capstone projects", "description": "Practice briefs and completion criteria", "keywords": "project capstone portfolio storytelling landing page" },
+    "11-landing-page": { "navTitle": "11. Landing pages", "description": "Purposeful motion for product pages", "keywords": "landing page hero conversion motion" },
+    "12-awwwards-patterns": { "navTitle": "12. Creative patterns", "description": "Advanced visual patterns to study critically", "keywords": "creative patterns kinetic typography reveal" },
+    "13-visual-design": { "navTitle": "13. Motion design", "description": "Visual hierarchy and motion principles", "keywords": "design typography color composition motion principles" },
+    "14-gsap-utilities": { "navTitle": "14. GSAP utilities", "description": "Utility methods and reusable helpers", "keywords": "utils clamp mapRange wrap quickTo ticker matchMedia" },
+    "15-common-patterns": { "navTitle": "15. Common patterns", "description": "Interaction patterns and implementation trade-offs", "keywords": "carousel marquee counter cursor parallax" },
+    "glossary": { "navTitle": "Glossary", "description": "Animation terminology", "keywords": "terms definitions glossary" },
+    "roadmap": { "navTitle": "Roadmap", "description": "Evidence-based learning plan and sources", "keywords": "roadmap curriculum course sources" }
+  }
+}
